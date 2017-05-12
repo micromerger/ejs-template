@@ -1,0 +1,37 @@
+import { Component, OnInit } from '@angular/core';
+import {Model, FireLoopRef } from 'app/shared/sdk/models';
+import { RealTime } from 'app/shared/sdk/services';
+import { Observable } from 'rxjs/Observable'
+@Component({
+  selector: 'app-department',
+  templateUrl: './department.component.html',
+  styleUrls: ['./department.component.css']
+})
+export class Model+'Component' implements OnInit {
+    private var modelName=(Model).toLowerCase(); 
+    private var modelNames= modelName+'s' ;
+    private var modelRef= modelName+'Ref' ;
+    modelName     : Model = new Model();
+    modelNames    : Model[] = new Array<Model>();
+    modelRef     : FireLoopRef<Model>;
+  constructor(private rt: RealTime) {
+    this.rt.onReady().subscribe(() => {
+    this.modelRef = this.rt.FireLoop.ref<Model>(Model);
+    this.modelRef.on('change').subscribe((modelName: Model[]) => this.modelNames = modelName);
+    });
+  }
+  ngOnInit() {
+  }
+
+  create(): void {
+    this.modelRef.create(this.modelName).subscribe(() => this.modelName = new Model());
+  }
+
+  update(obj: Model): void {
+    this.modelRef.upsert(obj).subscribe();
+  }
+
+  remove(obj: Model): void {
+    this.modelRef.remove(obj).subscribe();
+  }
+}
