@@ -1,17 +1,15 @@
 <html>
-
 <head>
 </head>
-
 <body>
-
     <h1>items</h1>
-
-
-    <input type=string placeholder= name ><br ><input type=number placeholder= price ><br >
-    <button>Submit</button>
-    
-    
+     <form (submit)="add()" class="form-inline">
+        <div class="input-group col-sm-5">
+            <input type=string placeholder= name ><br ><input type=number placeholder= price ><br >
+        </div>
+        <div class="input-group">
+            <button>Submit</button>
+       </div>
+    </form>
     </body>
-
 </html>

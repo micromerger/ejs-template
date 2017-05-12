@@ -1,17 +1,15 @@
 <html>
-
 <head>
 </head>
-
 <body>
-
     <h1>salelineitems</h1>
-
-
-    <input type=number placeholder= qty ><br >
-    <button>Submit</button>
-    
-    
+     <form (submit)="add()" class="form-inline">
+        <div class="input-group col-sm-5">
+            <input type=number placeholder= qty ><br >
+        </div>
+        <div class="input-group">
+            <button>Submit</button>
+       </div>
+    </form>
     </body>
-
 </html>

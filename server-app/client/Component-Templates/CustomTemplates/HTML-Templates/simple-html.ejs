@@ -2,10 +2,10 @@
 <head>
 </head>
 <body>
-    <h1>sales</h1>
+    <h1><%= model.name %></h1>
      <form (submit)="add()" class="form-inline">
         <div class="input-group col-sm-5">
-            <input type=date placeholder= date ><br ><input type=number placeholder= total ><br >
+            <%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue; var models = model.properties[test];%><input type=<%= models.type%> placeholder= <%= test%> ><br ><%} %>
         </div>
         <div class="input-group">
             <button>Submit</button>
