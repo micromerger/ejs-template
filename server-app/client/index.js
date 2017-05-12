@@ -1,4 +1,5 @@
 var ejs = require('ejs');
+var mkdirp = require('mkdirp');
 var app = require('../server/server.js');
 var model_schema = new Array();
 var json_files = new Array();
@@ -17,15 +18,21 @@ fs.readdir(testFolder, (err, files) => {
     //   console.log(model_schema)
     var model, temp;
     for (var count = 0; count < model_schema.length; count++) {
-        temp = fs.readFileSync('./Component-Templates/spec-template.ejs', 'utf-8');
-        model = model_schema[count];
+        for (var j = 0; j < Template_files.length; j++) {
+            temp = Template_files[j];
+            model = model_schema[count];
 
-        console.log(model.name.toUpperCase());
-        // model.name[0] = (model.name[0]).toUpperCase();
-        model.name = model.name.charAt(0).toUpperCase() + model.name.slice(1);
-        html = ejs.render(temp, { model: model });
-        fs.mkdirSync('./app/src/' + model.name);
-        fs.writeFileSync(model.name + '.spec.ts', html, 'utf-8');
+            console.log(model.name.toUpperCase());
+            // model.name[0] = (model.name[0]).toUpperCase();]
+            model.name = model.name.charAt(0).toUpperCase() + model.name.slice(1);
+            html = ejs.render(temp, { model: model });
+            var dir = './app/src/' + model.name;
+            mkdirp(dir, function(err) {
+                if (err)
+                    console.log(err);
+            });
+            fs.writeFileSync(dir + '/' + model.name + '.spec.ts', html, 'utf-8');
+        }
 
     }
 });
