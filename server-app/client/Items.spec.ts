@@ -1,30 +1,30 @@
 import { TestBed, async } from '@angular/core/testing';
 
-import { <%=model.name%>Component } from './<%=model.name%>.component';
+import { ItemsComponent } from './Items.component';
 
-describe('<%=model.name%>Component' , () => {
+describe('ItemsComponent' , () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-       <%=model.name%>Component
+       ItemsComponent
       ],
     }).compileComponents();
   }));
 
   it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(<%=model.name%>Component);
+    const fixture = TestBed.createComponent(ItemsComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 
   it(`should have as title 'app works!'`, async(() => {
-    const fixture = TestBed.createComponent(<%=model.name%>Component);
+    const fixture = TestBed.createComponent(ItemsComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('app works!');
   }));
 
   it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(<%=model.name%>Component);
+    const fixture = TestBed.createComponent(ItemsComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('app works!');

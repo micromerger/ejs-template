@@ -17,11 +17,15 @@ fs.readdir(testFolder, (err, files) => {
     //   console.log(model_schema)
     var model, temp;
     for (var count = 0; count < model_schema.length; count++) {
-        temp = fs.readFileSync('./Component-Templates/CustomTemplates/HTML-Templates/simple-html.ejs', 'utf-8');
+        temp = fs.readFileSync('./Component-Templates/spec-template.ejs', 'utf-8');
         model = model_schema[count];
+
+        console.log(model.name.toUpperCase());
+        // model.name[0] = (model.name[0]).toUpperCase();
+        model.name = model.name.charAt(0).toUpperCase() + model.name.slice(1);
         html = ejs.render(temp, { model: model });
-        console.log(html);
-        fs.writeFileSync(model.name + '.html', html, 'utf-8')
+        fs.mkdirSync('./app/src/' + model.name);
+        fs.writeFileSync(model.name + '.spec.ts', html, 'utf-8');
 
     }
 });
