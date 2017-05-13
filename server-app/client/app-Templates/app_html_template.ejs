@@ -1,0 +1,18 @@
+<nav class="navbar navbar-defaukt" role="navigation" bs-navbar style="background: firebrick; -webkit-text-fill-color: white">
+    <div class="navbar-header">
+        <a class="navbar-brand">New Application</a>
+    </div>
+    <ul class="nav navbar-nav">
+       <% for (var count = 0 ; count <  model_schema.length ; count++){%>
+       <li ><a routerLink="/<%= model_schema[count].name.toLowerCase() %>"><%= model_schema[count].name %></a></li> <% } %>
+    </ul>
+</nav>
+<div class="container theme-showcase" role="main">
+    <!--Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <h1 style="text-align: center; -webkit-text-fill-color: firebrick">SaleLine Items</h1>
+    </div>
+    <hr>
+    <div class="jumbotron">
+        <router-outlet></router-outlet>
+    </div>

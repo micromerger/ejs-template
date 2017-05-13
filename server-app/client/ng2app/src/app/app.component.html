@@ -1,9 +1,12 @@
 <nav class="navbar navbar-defaukt" role="navigation" bs-navbar style="background: firebrick; -webkit-text-fill-color: white">
     <div class="navbar-header">
-        <a class="navbar-brand">SaleLine Items</a>
+        <a class="navbar-brand">New Application</a>
     </div>
     <ul class="nav navbar-nav">
-       <%for (let test in model.properties){<li ><a routerLink="/<%= model.name %>"><%= model.name %></a></li>} 
+       
+       <li ><a routerLink="/items">Items</a></li> 
+       <li ><a routerLink="/salelineitems">Salelineitems</a></li> 
+       <li ><a routerLink="/sales">Sales</a></li> 
     </ul>
 </nav>
 <div class="container theme-showcase" role="main">

@@ -1,0 +1,18 @@
+
+import {ModuleWithProviders} from '@angular/core';
+import {NgModule} from "@angular/core";
+import {Routes, RouterModule} from '@angular/router';
+
+<% for (var count = 0 ; count <  model_schema.length ; count++){%>
+ import { <%= model_schema[count].name %>Component } from './myComponents/<%= model_schema[count].name %>Component/<%= model_schema[count].name%>.component';
+ <%}%>
+
+const appRoutes: Routes = [
+    <% for (var count = 0 ; count <  model_schema.length ; count++){%>
+     {path : '<%= model_schema[count].name.toLowerCase() %>' , component:<%= model_schema[count].name %>Component},
+     <%}%>
+     // otherwise redirect to home
+    { path: '**', redirectTo: '' }
+];
+//export class routing {}
+export const routing = RouterModule.forRoot(appRoutes);

@@ -1,0 +1,29 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { SDKBrowserModule } from './shared/sdk';
+import { routing} from './app.routing'
+import { AppComponent } from './app.component';
+
+<% for (var count = 0 ; count <  model_schema.length ; count++){%>
+ import { <%= model_schema[count].name %>Component } from './myComponents/<%= model_schema[count].name %>Component/<%= model_schema[count].name%>.component';
+ <%}%>
+@NgModule({
+  declarations: [
+    AppComponent,
+    <% for (var count = 0 ; count <  model_schema.length ; count++){%>
+    <%= model_schema[count].name %>Component,<%}%>
+    
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    routing,
+    SDKBrowserModule.forRoot()
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
