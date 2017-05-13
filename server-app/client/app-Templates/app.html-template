@@ -1,0 +1,17 @@
+<nav class="navbar navbar-defaukt" role="navigation" bs-navbar style="background: firebrick; -webkit-text-fill-color: white">
+    <div class="navbar-header">
+        <a class="navbar-brand">SaleLine Items</a>
+    </div>
+    <ul class="nav navbar-nav">
+       <%for (let test in model.properties){<li ><a routerLink="/<%= model.name %>"><%= model.name %></a></li>} 
+    </ul>
+</nav>
+<div class="container theme-showcase" role="main">
+    <!--Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <h1 style="text-align: center; -webkit-text-fill-color: firebrick">SaleLine Items</h1>
+    </div>
+    <hr>
+    <div class="jumbotron">
+        <router-outlet></router-outlet>
+    </div>

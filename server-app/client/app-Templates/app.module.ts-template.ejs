@@ -1,0 +1,25 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { SDKBrowserModule } from './shared/sdk';
+import { routing} from './app.routing'
+import { AppComponent } from './app.component';
+<%= for(let test in model){ import { <%= model.name %>Component } from './my-app-components/<%= model.name %>/i<%= model.name %>.component'; } %>
+@NgModule({
+  declarations: [
+    AppComponent,
+    <%= for(let modelnam of model){<%= model.name %>Component,} %>
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    routing,
+    SDKBrowserModule.forRoot()
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
