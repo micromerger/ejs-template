@@ -2,10 +2,10 @@
 <head>
 </head>
 <body>
-    <h1><%= model.name %></h1>
+    <h1>Items</h1>
      <form (submit)="add()" class="form-inline">
         <div class="input-group col-sm-5">
-            <%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue; var models = model.properties[test];%><input type=<%= models.type%> placeholder= <%= test%> ><br ><%} %>
+            <input type=string placeholder= name ><br ><input type=number placeholder= price ><br >
         </div>
         <div class="input-group">
             <button>Submit</button>

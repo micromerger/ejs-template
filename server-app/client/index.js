@@ -1,47 +1,64 @@
 var ejs = require('ejs');
-var mkdirp = require('mkdirp');
 var app = require('../server/server.js');
+var templates = new Array();
 var model_schema = new Array();
 var json_files = new Array();
-var Template_data = new Array();
-var Template_files = new Array();
+var path = require('path');
+const mkdirp = require('mkdirp');
+
+
+var model, template_folder = './Component-Templates/';
 const testFolder = '../common/models/';
 const fs = require('fs');
+
 fs.readdir(testFolder, (err, files) => {
     files.forEach(function(file) {
         if (file.split('.').pop() == 'json')
             json_files.push(file);
     });
+
+
     for (var i = 0; i < json_files.length; i++) {
         model_schema.push(require('../common/models/' + json_files[i]));
     }
-    //   console.log(model_schema)
-    var model, temp;
-    for (var count = 0; count < model_schema.length; count++) {
-        for (var j = 0; j < Template_files.length; j++) {
-            temp = Template_files[j];
-            model = model_schema[count];
 
-            console.log(model.name.toUpperCase());
-            // model.name[0] = (model.name[0]).toUpperCase();]
+    fs.readdir(template_folder, (err, temp) => {
+        for (var i = 0; i < temp.length; i++) {
+            templates.push(fs.readFileSync('./Component-Templates/' + temp[i], 'utf-8'));
+        }
+        for (var count = 0; count < model_schema.length; count++) {
+            model = model_schema[count];
             model.name = model.name.charAt(0).toUpperCase() + model.name.slice(1);
-            html = ejs.render(temp, { model: model });
-            var dir = './app/src/' + model.name;
-            mkdirp(dir, function(err) {
+            var dir = path.join('./app/src/' + model.name);
+
+            mkdirp.sync(dir, function(err) {
                 if (err)
                     console.log(err);
-            });
-            fs.writeFileSync(dir + '/' + model.name + '.spec.ts', html, 'utf-8');
-        }
+            }); //end of mkdirp...
 
-    }
-});
 
-//  var abc = require('../common/models/items.json');
-// var temp = fs.readFileSync('./modelTemplate.ejs' , 'utf-8');
-// console.log(abc)
-//  html = ejs.render(temp,{temp : abc});
-// console.log(html);
-// console.log(temp , model[0].name+'.html');
+            for (var i = 0; i < temp.length; i++) {
+                html = ejs.render(templates[i], { model: model });
+                switch (temp[i]) {
+                    case 'css-template.ejs':
+                        fs.writeFileSync(dir + '/' + model.name + '.component' + '.css', html, 'utf-8')
+                        break;
 
-// fs.writeFileSync(model[0].name+'.html', html, 'utf-8')
+                    case 'simple-html.ejs':
+                        fs.writeFileSync(dir + '/' + model.name + '.component' + '.html', html, 'utf-8')
+                        break;
+
+                    case 'spec.ts-template.ejs':
+                        fs.writeFileSync(dir + '/' + model.name + '.component' + '.spec.ts', html, 'utf-8')
+                        break;
+
+                    case 'ts-template.ejs':
+                        fs.writeFileSync(dir + '/' + model.name + '.component' + '.ts', html, 'utf-8')
+                        break;
+                } //end of switch...
+            } //end of for loop...
+        } //end of for loop...
+
+    });
+
+}); //fs.readfile...
