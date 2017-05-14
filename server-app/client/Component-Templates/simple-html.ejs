@@ -3,9 +3,9 @@
 </head>
 <body>
     <h1><%= model.name %></h1>
-     <form (submit)="add()" class="form-inline">
+     <form (submit)="create()" class="form-inline">
         <div class="input-group col-sm-5">
-            <%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue; var models = model.properties[test];%><input class="form-control" type=<%= models.type%> placeholder= <%= test%> ><br ><%} %>
+            <%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue; var models = model.properties[test];%><input class="form-control" type="<%= models.type%>" name="<%= (model.name).toLowerCase()%>" [(ngModel)]="<%= (model.name).toLowerCase()%>.<%= test%>" placeholder=" <%= test%>" ><br ><%} %>
         </div>
         <div class="input-group">
             <button class="btn btn-primary">Submit</button>

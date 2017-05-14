@@ -9,11 +9,10 @@
         "lint": "eslint .",
         "start": "node .",
         "posttest": "npm run lint && nsp check",
-        "build:sdk": "./node_modules/.bin/lb-sdk server/server ./client/ng2app/src/app/shared/sdk"
-
+        "build:sdk": "./node_modules/.bin/lb-sdk server/server ../client/ng2app/src/app/shared/sdk"
     },
     "dependencies": {
-        "@mean-expert/loopback-component-realtime": "^1.0.0-rc.6",
+        "@mean-expert/loopback-component-realtime": "^1.0.0-rc.5",
         "@mean-expert/loopback-sdk-builder": "^2.1.0-rc.10.2",
         "compression": "^1.0.3",
         "cors": "^2.5.2",
