@@ -30,13 +30,13 @@ fs.readdir(testFolder, (err, files) => {
 
 
     fs.readdir(template_folder, (err, temp) => {
-        mkdirp('./ng2app/e2e', function(err) {
+        mkdirp.sync('./ng2app/e2e', function(err) {
             if (err) console.error(err)
         });
-        mkdirp('./ng2app/src/assets', function(err) {
+        mkdirp.sync('./ng2app/src/assets', function(err) {
             if (err) console.error(err)
         });
-        mkdirp('./ng2app/src/enviroments', function(err) {
+        mkdirp.sync('./ng2app/src/environments', function(err) {
             if (err) console.error(err)
         });
         for (var i = 0; i < temp.length; i++) {
@@ -115,6 +115,41 @@ fs.readdir(testFolder, (err, files) => {
                     case 'routing_template.ejs':
                         fs.writeFileSync('./ng2app/src/app/app.routing.ts', html, 'utf-8')
                         break;
+                    case 'app_html_template.ejs':
+                        fs.writeFileSync('./ng2app/src/app/app.component.html', html, 'utf-8')
+                        break;
+
+                    case 'index.html-template.ejs':
+                        fs.writeFileSync('./ng2app/src/index.html', html, 'utf-8')
+                        break;
+
+                    case 'main.ts-template.ejs':
+                        fs.writeFileSync('./ng2app/src/main.ts', html, 'utf-8')
+                        break;
+
+                    case 'polyfills.ts-template.ejs':
+                        fs.writeFileSync('./ng2app/src/polyfills.ts', html, 'utf-8')
+                        break;
+
+                    case 'styles.css-template.ejs':
+                        fs.writeFileSync('./ng2app/src/styles.css', html, 'utf-8')
+                        break;
+
+                    case 'test.ts-template.ejs':
+                        fs.writeFileSync('./ng2app/src/test.ts', html, 'utf-8')
+                        break;
+
+                    case 'tsconfig.app.json-template.ejs':
+                        fs.writeFileSync('./ng2app/src/tsconfig.app.json', html, 'utf-8')
+                        break;
+
+                    case 'tsconfig.spec.json-template.ejs':
+                        fs.writeFileSync('./ng2app/src/tsconfig.spec.json', html, 'utf-8')
+                        break;
+
+                    case 'typings.d.ts-template.ejs':
+                        fs.writeFileSync('./ng2app/src/typings.d.ts', html, 'utf-8')
+                        break;
                 } //end of switch...
             } // end of for...
         }); //end of fs.readdir... reading app-Templates
@@ -136,12 +171,12 @@ fs.readdir(testFolder, (err, files) => {
                     model_schema: model_schema
                 });
                 switch (e2e_temp_names[count1]) {
-                    case 'app.e2e.spec.ts-template.ejs':
-                        fs.writeFileSync('./ng2app/e2e/app.e2e.spec.ts', html, 'utf-8')
+                    case 'app.e2e-spec.ts-template.ejs':
+                        fs.writeFileSync('./ng2app/e2e/app.e2e-spec.ts', html, 'utf-8')
                         break;
 
-                    case 'app.poo.ts-template.ejs':
-                        fs.writeFileSync('./ng2app/e2e/app.poo.ts', html, 'utf-8')
+                    case 'app.po.ts-template.ejs':
+                        fs.writeFileSync('./ng2app/e2e/app.po.ts', html, 'utf-8')
                         break;
 
                     case 'tsconfig.e2e.json-template.ejs':
@@ -203,6 +238,14 @@ fs.readdir(testFolder, (err, files) => {
 
                     case 'tslint.json-template.ejs':
                         fs.writeFileSync('./ng2app/tslint.json', html, 'utf-8')
+                        break;
+
+                    case 'environment.prod.ts-template.ejs':
+                        fs.writeFileSync('./ng2app/src/environments/environment.prod.ts', html, 'utf-8')
+                        break;
+
+                    case 'environment.ts-template.ejs':
+                        fs.writeFileSync('./ng2app/src/environments/environment.ts', html, 'utf-8')
                         break;
                 } //end of switch...
             } // end of for...
