@@ -1,16 +1,28 @@
 /* tslint:disable */
+import {
+  Type,
+  Size
+} from '../index';
 
 declare var Object: any;
 export interface ItemsInterface {
   "name"?: string;
   "price"?: number;
   "id"?: number;
+  "typeId"?: number;
+  "sizeId"?: number;
+  type?: Type;
+  size?: Size;
 }
 
 export class Items implements ItemsInterface {
   "name": string;
   "price": number;
   "id": number;
+  "typeId": number;
+  "sizeId": number;
+  type: Type;
+  size: Size;
   constructor(data?: ItemsInterface) {
     Object.assign(this, data);
   }
@@ -54,8 +66,26 @@ export class Items implements ItemsInterface {
           name: 'id',
           type: 'number'
         },
+        "typeId": {
+          name: 'typeId',
+          type: 'number'
+        },
+        "sizeId": {
+          name: 'sizeId',
+          type: 'number'
+        },
       },
       relations: {
+        type: {
+          name: 'type',
+          type: 'Type',
+          model: 'Type'
+        },
+        size: {
+          name: 'size',
+          type: 'Size',
+          model: 'Size'
+        },
       }
     }
   }

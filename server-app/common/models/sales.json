@@ -1,28 +1,28 @@
 {
-    "name": "sales",
-    "plural": "sales",
-    "base": "PersistedModel",
-    "idInjection": true,
-    "options": {
-        "validateUpsert": true
+  "name": "sales",
+  "plural": "sales",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date"
     },
-    "properties": {
-        "date": {
-            "type": "date"
-        },
-        "total": {
-            "type": "number"
-        }
-    },
-    "validations": [],
-    "relations": {
-        "items": {
-            "type": "hasMany",
-            "model": "items",
-            "foreignKey": "item",
-            "through": "salelineitems"
-        }
-    },
-    "acls": [],
-    "methods": {}
+    "total": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "items": {
+      "type": "hasMany",
+      "model": "items",
+      "foreignKey": "item",
+      "through": "salelineitems"
+    }
+  },
+  "acls": [],
+  "methods": {}
 }

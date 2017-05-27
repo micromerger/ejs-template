@@ -7,19 +7,40 @@ import { routing} from './app.routing'
 import { AppComponent } from './app.component';
 
 
+ import { CustomerComponent } from './myComponents/CustomerComponent/Customer.component';
+ 
+ import { EmailComponent } from './myComponents/EmailComponent/Email.component';
+ 
+ import { EquipmentComponent } from './myComponents/EquipmentComponent/Equipment.component';
+ 
+ import { EquipmentpartComponent } from './myComponents/EquipmentpartComponent/Equipmentpart.component';
+ 
  import { ItemsComponent } from './myComponents/ItemsComponent/Items.component';
+ 
+ import { PartComponent } from './myComponents/PartComponent/Part.component';
  
  import { SalelineitemsComponent } from './myComponents/SalelineitemsComponent/Salelineitems.component';
  
  import { SalesComponent } from './myComponents/SalesComponent/Sales.component';
  
+ import { SizeComponent } from './myComponents/SizeComponent/Size.component';
+ 
+ import { TypeComponent } from './myComponents/TypeComponent/Type.component';
+ 
 @NgModule({
   declarations: [
     AppComponent,
     
+    CustomerComponent,
+    EmailComponent,
+    EquipmentComponent,
+    EquipmentpartComponent,
     ItemsComponent,
+    PartComponent,
     SalelineitemsComponent,
     SalesComponent,
+    SizeComponent,
+    TypeComponent,
     
   ],
   imports: [

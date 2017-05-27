@@ -1,0 +1,12 @@
+<p>
+    part works!
+</p>
+<form (submit)="create()" class="form-inline">
+    <div class="input-group col-sm-5">
+        <input class="form-control" type="string" name="part" [(ngModel)]="part.partname" placeholder="name"><br>
+
+    </div>
+    <div class="input-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

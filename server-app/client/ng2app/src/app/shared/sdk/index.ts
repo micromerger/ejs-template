@@ -52,6 +52,10 @@ import { UserApi } from './services/custom/User';
 import { ItemsApi } from './services/custom/Items';
 import { SalelineitemsApi } from './services/custom/Salelineitems';
 import { SalesApi } from './services/custom/Sales';
+import { TypeApi } from './services/custom/Type';
+import { SizeApi } from './services/custom/Size';
+import { CustomerApi } from './services/custom/Customer';
+import { EmailApi } from './services/custom/Email';
 /**
 * @module SDKBrowserModule
 * @description
@@ -87,6 +91,10 @@ export class SDKBrowserModule {
         ItemsApi,
         SalelineitemsApi,
         SalesApi,
+        TypeApi,
+        SizeApi,
+        CustomerApi,
+        EmailApi,
         internalStorageProvider,
         { provide: SDKStorage, useClass: StorageBrowser },
         { provide: SocketDriver, useClass: SocketBrowser }

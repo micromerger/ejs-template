@@ -46,5 +46,21 @@
     "sales": {
         "dataSource": "db",
         "public": true
+    },
+    "type": {
+        "dataSource": "db",
+        "public": true
+    },
+    "size": {
+        "dataSource": "db",
+        "public": true
+    },
+    "customer": {
+        "dataSource": "db",
+        "public": true
+    },
+    "email": {
+        "dataSource": "db",
+        "public": true
     }
 }

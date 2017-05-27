@@ -2,14 +2,22 @@
 <head>
 </head>
 <body>
-    <h1>Salelineitems</h1>
-     <form (submit)="create()" class="form-inline">
+  
+
+
+      <h1>
+        Salelineitems
+      </h1>
+      <form (submit)="create()" class="form-inline">
         <div class="input-group col-sm-5">
-            <input class="form-control" type="number" name="salelineitems" [(ngModel)]="salelineitems.qty" placeholder=" qty" ><br >
+          <input class="form-control" type="number" name="salelineitems" [(ngModel)]="salelineitems.qty"
+              placeholder=" qty"><br>
+            
         </div>
         <div class="input-group">
-            <button class="btn btn-primary">Submit</button>
-       </div>
-    </form>
-    </body>
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+</body>
+
 </html>

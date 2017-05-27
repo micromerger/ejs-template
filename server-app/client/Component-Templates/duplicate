@@ -1,0 +1,34 @@
+import { Component, OnInit } from '@angular/core';
+import {<%=model.name%>, FireLoopRef } from 'app/shared/sdk/models';
+import { RealTime } from 'app/shared/sdk/services';
+import { Observable } from 'rxjs/Observable'
+@Component({
+  selector: 'app-<%=model.name%>',
+  templateUrl: './<%=model.name%>.component.html',
+  styleUrls: ['./<%=model.name%>.component.css']
+})
+export class <%=model.name%>Component implements OnInit {
+      private <%= model.name.toLowerCase() %>      : <%=model.name%> = new <%=model.name%>();
+  private <%= model.name.toLowerCase() %>1   : <%=model.name%>[] = new Array<<%=model.name%>>();
+ private <%= model.name.toLowerCase() %>Ref : FireLoopRef<<%=model.name%>>;
+  constructor(private rt: RealTime) {
+    this.rt.onReady().subscribe(() => {
+    this.<%= model.name.toLowerCase() %>Ref= this.rt.FireLoop.ref<<%=model.name%>>(<%=model.name%>);
+    this.<%= model.name.toLowerCase() %>Ref.on('change').subscribe((<%= model.name.toLowerCase() %> : <%=model.name%>[]) => this.<%= model.name.toLowerCase()%>1  = <%= model.name.toLowerCase() %>);
+    });
+  }
+  ngOnInit() {
+  }
+
+  create(): void {
+    this.<%= model.name.toLowerCase() %>Ref.create(this.<%= model.name.toLowerCase() %>).subscribe(() => this.<%= model.name.toLowerCase() %> = new <%=model.name%>());
+  }
+
+  update(obj: <%=model.name%>): void {
+    this.<%= model.name.toLowerCase() %>Ref.upsert(obj).subscribe();
+  }
+
+  remove(obj: <%=model.name%>): void {
+    this.<%= model.name.toLowerCase() %>Ref.remove(obj).subscribe();
+  }
+}

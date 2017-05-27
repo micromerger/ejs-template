@@ -1,34 +1,98 @@
+<% 
+var belongsTo = [] , hasMany = [] , import_Models = [], rel = false;
+
+import_Models.push(model.name);
+for (var count = 0 ;count < lb_relation.length ; count++){
+ lb_relation[count].name =  lb_relation[count].name.charAt(0).toUpperCase() +  lb_relation[count].name.slice(1); 
+ lb_relation[count].relations.model =  lb_relation[count].relations.model.charAt(0).toUpperCase() +  lb_relation[count].relations.model.slice(1);
+}
+
+
+for (var count = 0 ;count < lb_relation.length ; count++){
+        for (var i = 0 ; i< lb_relation.length ; i++) { 
+          if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "belongsTo" && lb_relation[count].relations.model.toLowerCase() == lb_relation[i].name.toLowerCase() &&  lb_relation[i].relations.model.toLowerCase() == lb_relation[count].name.toLowerCase() && lb_relation[i].relations.type == "hasMany" ){
+              belongsTo.push(lb_relation[count]);
+              rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+             if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "hasMany" &&  lb_relation[count].relations.model.toLowerCase() == lb_relation[i].name.toLowerCase() && lb_relation[count].relations.model.toLowerCase() == lb_relation[i].name.toLowerCase() &&  lb_relation[i].relations.model.toLowerCase() == lb_relation[count].name.toLowerCase() && lb_relation[i].relations.type == "belongsTo" && !("through" in lb_relation[count].relations) ){
+              hasMany.push(lb_relation[count]);
+               rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+    }
+}%>       
+
 import { Component, OnInit } from '@angular/core';
-import {<%=model.name%>, FireLoopRef } from 'app/shared/sdk/models';
+import { <% if(import_Models.length  > 0){ for (var count = 0 ;count < import_Models.length ; count++) {%> <%= import_Models[count] %> ,<%}}%> FireLoopRef } from 'app/shared/sdk/models';
 import { RealTime } from 'app/shared/sdk/services';
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-<%=model.name%>',
   templateUrl: './<%=model.name%>.component.html',
   styleUrls: ['./<%=model.name%>.component.css']
 })
+
 export class <%=model.name%>Component implements OnInit {
-      private <%= model.name.toLowerCase() %>      : <%=model.name%> = new <%=model.name%>();
-  private <%= model.name.toLowerCase() %>1   : <%=model.name%>[] = new Array<<%=model.name%>>();
- private <%= model.name.toLowerCase() %>Ref : FireLoopRef<<%=model.name%>>;
-  constructor(private rt: RealTime) {
+
+      private <%= model.name.toLowerCase() %>      : <%=model.name%> = new <%= model.name %>();
+      private <%= model.name.toLowerCase() %>s      : <%=model.name%>[] = new Array <<%= model.name %>>();
+      private <%= model.name.toLowerCase() %>Ref : FireLoopRef<<%= model.name %>>;
+      private <%= model.name.toLowerCase() %>_edit_btn : boolean = false;
+
+  <%for (var i=0 ;i< belongsTo.length ; i++){%>
+      private <%= belongsTo[i].relations.model.toLowerCase() %>s : <%= belongsTo[i].relations.model %>[] = new Array<<%= belongsTo[i].relations.model %>>();
+      private <%= belongsTo[i].relations.model.toLowerCase() %>Ref : FireLoopRef<<%= belongsTo[i].relations.model %>>;
+  <%}%>
+  <%for (var i=0 ;i< hasMany.length ; i++){%>
+      private <%= hasMany[i].relations.model.toLowerCase() %> : <%= hasMany[i].relations.model %> = new <%= hasMany[i].relations.model %>();
+      private <%= hasMany[i].relations.model.toLowerCase() %>s : <%= hasMany[i].relations.model %>[] = new Array<<%= hasMany[i].relations.model %>>();
+      private <%= hasMany[i].relations.model.toLowerCase() %>Ref : FireLoopRef<<%= hasMany[i].relations.model %>>;
+  <%}%>
+    constructor(private rt: RealTime) {
     this.rt.onReady().subscribe(() => {
-    this.<%= model.name.toLowerCase() %>Ref= this.rt.FireLoop.ref<<%=model.name%>>(<%=model.name%>);
-    this.<%= model.name.toLowerCase() %>Ref.on('change').subscribe((<%= model.name.toLowerCase() %> : <%=model.name%>[]) => this.<%= model.name.toLowerCase()%>1  = <%= model.name.toLowerCase() %>);
+    this.<%= model.name.toLowerCase() %>Ref = this.rt.FireLoop.ref<<%= model.name %>>(<%= model.name %>);
+    this.<%= model.name.toLowerCase() %>Ref.on('change').subscribe((<%= model.name.toLowerCase() %>: <%= model.name %>[]) => this.<%= model.name.toLowerCase() %>s = <%= model.name.toLowerCase() %>);
+
+  <%for (var i=0 ;i< belongsTo.length ; i++){%>
+    this.<%= belongsTo[i].relations.model.toLowerCase() %>Ref = this.rt.FireLoop.ref<<%= belongsTo[i].relations.model %>>(<%= belongsTo[i].relations.model %>);
+    this.<%= belongsTo[i].relations.model.toLowerCase() %>Ref.on('change').subscribe((<%= belongsTo[i].relations.model.toLowerCase() %>: <%= belongsTo[i].relations.model %>[]) => this.<%= belongsTo[i].relations.model.toLowerCase() %>s = <%= belongsTo[i].relations.model.toLowerCase() %>);
+  <%}%>
+   <%for (var i=0 ;i< hasMany.length ; i++){%>
+    this.<%= hasMany[i].relations.model.toLowerCase() %>Ref = this.rt.FireLoop.ref<<%= hasMany[i].relations.model %>>(<%= hasMany[i].relations.model %>);
+    this.<%= hasMany[i].relations.model.toLowerCase() %>Ref.on('change').subscribe((<%= hasMany[i].relations.model.toLowerCase() %>: <%= hasMany[i].relations.model %>[]) => this.<%= hasMany[i].relations.model.toLowerCase() %>s = <%= hasMany[i].relations.model.toLowerCase() %>);
+  <%}%>
+
     });
   }
   ngOnInit() {
   }
 
-  create(): void {
-    this.<%= model.name.toLowerCase() %>Ref.create(this.<%= model.name.toLowerCase() %>).subscribe(() => this.<%= model.name.toLowerCase() %> = new <%=model.name%>());
+  add<%= model.name %>() : void{
+  this.<%= model.name.toLowerCase() %>Ref.create(this.<%= model.name.toLowerCase() %>).subscribe(() => this.<%= model.name.toLowerCase() %> = new <%= model.name %> ());
+  for(var i in <%= model.name%>) { <%= model.name%>[i] = ""};
   }
 
-  update(obj: <%=model.name%>): void {
-    this.<%= model.name.toLowerCase() %>Ref.upsert(obj).subscribe();
+  edit<%= model.name %>(id) : void{
+    this.<%= model.name.toLowerCase() %>_edit_btn = true;
+    for (var i = 0; i< this.<%= model.name.toLowerCase() %>s.length;i++){
+      if (this.<%= model.name.toLowerCase() %>s[i].id  == id)
+      this.<%= model.name.toLowerCase() %> = this.<%= model.name.toLowerCase() %>s[i];
+    }
   }
 
-  remove(obj: <%=model.name%>): void {
-    this.<%= model.name.toLowerCase() %>Ref.remove(obj).subscribe();
+   delete<%= model.name %>(<%= model.name.toLowerCase() %> : <%= model.name %> ):void{
+    this.<%= model.name.toLowerCase() %>Ref.remove(<%= model.name.toLowerCase() %>).subscribe();
+  }
+
+  <%= model.name.toLowerCase()%>SubmitRecord() : void{
+    this.<%= model.name.toLowerCase() %>Ref.upsert(this.<%= model.name.toLowerCase() %>).subscribe();
+    this.<%= model.name.toLowerCase() %>_edit_btn = false;
+    for(var i in <%= model.name%>) { <%= model.name%>[i] = ""};
   }
 }

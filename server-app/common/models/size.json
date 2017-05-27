@@ -1,0 +1,23 @@
+{
+  "name": "size",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "sizename": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "items": {
+      "type": "hasMany",
+      "model": "items",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

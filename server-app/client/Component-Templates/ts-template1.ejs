@@ -1,0 +1,83 @@
+<%var belongsTo = new Array();
+var hasMany = new Array();%>
+<%for(var count = 0 ;count < lb_relation.length ; count++){%>
+       <%for (var i = 0 ; i< lb_relation.length ; i++) {%>
+<%if(lb_relation[count].relations.type == "belongsTo" && lb_relation[count].relations.model == lb_relation[i].name &&  lb_relation[i].relations.model == lb_relation[count].name && lb_relation[i].relations.type == "hasMany"){%>
+           <%belongsTo.push(lb_relation[count]);
+            %>
+           
+<%}%>
+<%if(lb_relation[count].relations.type == "hasMany" && lb_relation[count].relations.model == lb_relation[i].name &&  lb_relation[i].relations.model == lb_relation[count].name && lb_relation[i].relations.type == "belongsTo"){%>
+           <%hasMany.push(lb_relation[count]);
+           %>
+           
+<%}%>
+<%}%>
+<%}%>
+<%for (var j=0 ;j<belongsTo.length; j++){
+  belongsTo[j].name = belongsTo[j].name.charAt(0).toUpperCase() + belongsTo[j].name.slice(1);
+              belongsTo[j].relations.model = belongsTo[j].relations.model.charAt(0).toUpperCase() + belongsTo[j].relations.model.slice(1);}
+              console.log(belongsTo);%>
+<%for (var k=0 ;k<hasMany.length; k++){
+  hasMany[k].name = hasMany[k].name.charAt(0).toUpperCase() + hasMany[k].name.slice(1);
+              hasMany[k].relations.model = hasMany[k].relations.model.charAt(0).toUpperCase() + hasMany[k].relations.model.slice(1);}
+              console.log(hasMany);%>
+import { Component, OnInit } from '@angular/core';
+import {<%=model.name%>, <% if(belongsTo.length  > 0){ for (var count = 0 ;count < belongsTo.length ; count++) {%> <%= belongsTo[count].relations.model %> ,<%}}%>  FireLoopRef } from 'app/shared/sdk/models';
+import { RealTime } from 'app/shared/sdk/services';
+import { Observable } from 'rxjs/Observable';
+
+@Component({
+  selector: 'app-<%=model.name%>',
+  templateUrl: './<%=model.name%>.component.html',
+  styleUrls: ['./<%=model.name%>.component.css']
+})
+
+export class <%=model.name%>Component implements OnInit {
+      private <%= model.name.toLowerCase() %>      : <%=model.name%> = new <%=model.name%>();
+  private <%= model.name.toLowerCase() %>1   : <%=model.name%>[] = new Array<<%=model.name%>>();
+ private <%= model.name.toLowerCase() %>Ref : FireLoopRef<<%=model.name%>>;
+ 
+
+<% if(belongsTo.length > 0){ 
+  for (var count = 0 ;count < belongsTo.length ; count++) { %>
+
+private  <%= ["reference"+count]%> : FireLoopRef< <%= belongsTo[count].relations.model %> >;
+private <%= belongsTo[count].relations.model.toLowerCase()%>     : <%= belongsTo[count].relations.model%>[] = new Array< <%= belongsTo[count].relations.model%> >();
+<%}}%>
+
+
+
+  constructor(private rt: RealTime) {
+    this.rt.onReady().subscribe(() => {
+    this.<%= model.name.toLowerCase() %>Ref= this.rt.FireLoop.ref<<%=model.name%>>(<%=model.name%>);
+    this.<%= model.name.toLowerCase() %>Ref.on('change').subscribe((<%= model.name.toLowerCase() %> : <%=model.name%>[]) => this.<%= model.name.toLowerCase()%>1  = <%= model.name.toLowerCase() %>);
+
+    <% if(belongsTo.length > 0){ 
+      for (var count = 0 ;count < belongsTo.length ; count++) { %>
+    this. <%= ["reference"+count]%> = this.rt.FireLoop.ref<<%= belongsTo[count].relations.model %>>(<%= belongsTo[count].relations.model%>);    
+    this.<%= ["reference"+count]%>.on('change').subscribe(( <%= belongsTo[count].relations.model.toLowerCase()%> : <%= belongsTo[count].relations.model %>[]) => this.<%= belongsTo[count].relations.model.toLowerCase() %> = <%= belongsTo[count].relations.model.toLowerCase() %>); 
+    <%}}%>
+    });
+  }
+  ngOnInit() {
+  }
+
+<% if( belongsTo.length > 0){ %>
+   selectedItem(param): void {
+     console.log("param")
+  }
+   <%}%>
+
+  create(): void {
+    this.<%= model.name.toLowerCase() %>Ref.create(this.<%= model.name.toLowerCase() %>).subscribe(() => this.<%= model.name.toLowerCase() %> = new <%=model.name%>());
+  }
+
+  update(obj: <%=model.name%>): void {
+    this.<%= model.name.toLowerCase() %>Ref.upsert(obj).subscribe();
+  }
+
+  remove(obj: <%=model.name%>): void {
+    this.<%= model.name.toLowerCase() %>Ref.remove(obj).subscribe();
+  }
+}

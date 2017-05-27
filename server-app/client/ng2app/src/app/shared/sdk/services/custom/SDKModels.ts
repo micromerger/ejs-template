@@ -4,6 +4,10 @@ import { User } from '../../models/User';
 import { Items } from '../../models/Items';
 import { Salelineitems } from '../../models/Salelineitems';
 import { Sales } from '../../models/Sales';
+import { Type } from '../../models/Type';
+import { Size } from '../../models/Size';
+import { Customer } from '../../models/Customer';
+import { Email } from '../../models/Email';
 
 export interface Models { [name: string]: any }
 
@@ -15,6 +19,10 @@ export class SDKModels {
     Items: Items,
     Salelineitems: Salelineitems,
     Sales: Sales,
+    Type: Type,
+    Size: Size,
+    Customer: Customer,
+    Email: Email,
     
   };
 

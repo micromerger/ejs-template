@@ -2,14 +2,78 @@
 <head>
 </head>
 <body>
-    <h1><%= model.name %></h1>
-     <form (submit)="create()" class="form-inline">
+<% 
+var belongsTo = [] , hasMany = [] , import_Models = [], rel = false;
+
+import_Models.push(model.name);
+for (var count = 0 ;count < lb_relation.length ; count++){
+ lb_relation[count].name =  lb_relation[count].name.charAt(0).toUpperCase() +  lb_relation[count].name.slice(1); 
+ lb_relation[count].relations.model =  lb_relation[count].relations.model.charAt(0).toUpperCase() +  lb_relation[count].relations.model.slice(1);
+}
+
+
+for (var count = 0 ;count < lb_relation.length ; count++){
+        for (var i = 0 ; i< lb_relation.length ; i++) { 
+          if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "belongsTo" && lb_relation[count].relations.model.toLowerCase() == lb_relation[i].name.toLowerCase() &&  lb_relation[i].relations.model.toLowerCase() == lb_relation[count].name.toLowerCase() && lb_relation[i].relations.type == "hasMany" ){
+              belongsTo.push(lb_relation[count]);
+              rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+             if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "hasMany" &&  lb_relation[count].relations.model.toLowerCase() == lb_relation[i].name.toLowerCase() && lb_relation[count].relations.model.toLowerCase() == lb_relation[i].name.toLowerCase() &&  lb_relation[i].relations.model.toLowerCase() == lb_relation[count].name.toLowerCase() && lb_relation[i].relations.type == "belongsTo" && !("through" in lb_relation[count].relations) ){
+              hasMany.push(lb_relation[count]);
+               rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+    }
+}%>  
+<% if(belongsTo.length  > 0){ for (var count = 0 ;count < belongsTo.length ; count++) {%>
+<input type="text" list="search<%=belongsTo[count].relations.model%>" placeholder="<%=model.name%> <%=belongsTo[count].relations.model%> ">
+    <datalist id="search<%=belongsTo[count].relations.model%>">
+      <option *ngFor="let list of <%=belongsTo[count].relations.model.toLowerCase()%>s" [value]="list.typename">{{list.name}}</option>
+    </datalist>
+<%}}%>
+<% if(hasMany.length  > 0){ for (var count = 0 ;count < hasMany.length ; count++) {%>
+<input type="text" list="search<%=hasMany[count].relations.model%>" placeholder="<%=model.name%> <%=hasMany[count].relations.model%> ">
+    <datalist id="search<%=hasMany[count].relations.model%>">
+      <option *ngFor="let list of <%=hasMany[count].relations.model.toLowerCase()%>s" [value]="list.typename">{{list.name}}</option>
+    </datalist>
+            <div class="container ">
+            <table class="table table-hover">
+                <thead>
+                    <tr> <%=hasMany[count].relations.model%> </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let list of <%=hasMany[count].relations.model.toLowerCase()%>s" style="margin-bottom: 10px;">
+                        <td><input class="form-control " type="string" value="{{list.emailaddress}}"> </td>
+                        <td><button class="btn btn-primary" (click)="removeEmail(list)">Delete</button></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><input class="form-control" type="text" #emailaddress placeholder="<%=hasMany[count].relations.model%>s" /></td>
+                        <td><button class="btn btn-primary" (click)="addEmail(emailaddress.value)">Add</button></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+<%}}%>
+      <h1>
+        <%= model.name %>
+      </h1>
+      <form (submit)="create()" class="form-inline">
         <div class="input-group col-sm-5">
-            <%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue; var models = model.properties[test];%><input class="form-control" type="<%= models.type%>" name="<%= (model.name).toLowerCase()%>" [(ngModel)]="<%= (model.name).toLowerCase()%>.<%= test%>" placeholder=" <%= test%>" ><br ><%} %>
+          <%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue; var models = model.properties[test];%><input class="form-control" type="<%= models.type%>" name="<%= (model.name).toLowerCase()%>" [(ngModel)]="<%= (model.name).toLowerCase()%>.<%= test%>"
+              placeholder=" <%= test%>"><br>
+            <%} %>
         </div>
         <div class="input-group">
-            <button class="btn btn-primary">Submit</button>
-       </div>
-    </form>
-    </body>
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+</body>
+
 </html>

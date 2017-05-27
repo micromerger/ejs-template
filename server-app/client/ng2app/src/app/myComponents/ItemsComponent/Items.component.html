@@ -2,14 +2,34 @@
 <head>
 </head>
 <body>
-    <h1>Items</h1>
-     <form (submit)="create()" class="form-inline">
+  
+
+<input type="text" list="searchType" placeholder="Items Type ">
+    <datalist id="searchType">
+      <option *ngFor="let list of types" [value]="list.typename">{{list.name}}</option>
+    </datalist>
+
+<input type="text" list="searchSize" placeholder="Items Size ">
+    <datalist id="searchSize">
+      <option *ngFor="let list of sizes" [value]="list.typename">{{list.name}}</option>
+    </datalist>
+
+
+      <h1>
+        Items
+      </h1>
+      <form (submit)="create()" class="form-inline">
         <div class="input-group col-sm-5">
-            <input class="form-control" type="string" name="items" [(ngModel)]="items.name" placeholder=" name" ><br ><input class="form-control" type="number" name="items" [(ngModel)]="items.price" placeholder=" price" ><br >
+          <input class="form-control" type="string" name="items" [(ngModel)]="items.name"
+              placeholder=" name"><br>
+            <input class="form-control" type="number" name="items" [(ngModel)]="items.price"
+              placeholder=" price"><br>
+            
         </div>
         <div class="input-group">
-            <button class="btn btn-primary">Submit</button>
-       </div>
-    </form>
-    </body>
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+</body>
+
 </html>

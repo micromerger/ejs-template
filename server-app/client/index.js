@@ -9,6 +9,10 @@ var e2e_templates = new Array();
 var e2e_temp_names = new Array();
 var cli_templates = new Array();
 var cli_temp_names = new Array();
+
+var lb_relation = new Array();
+var relation_data;
+
 var path = require('path');
 var mkdirp = require('mkdirp');
 var fs = require('fs');
@@ -27,6 +31,26 @@ fs.readdir(testFolder, (err, files) => {
     for (var i = 0; i < json_files.length; i++) {
         model_schema.push(require('../common/models/' + json_files[i]));
     }
+    // console.log(model_schema);
+    //handle loopback:Relations
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    var relation_name;
+    for (var count = 0; count < model_schema.length; count++) {
+        if (Object.keys(model_schema[count].relations).length > 0) {
+            relation_name = Object.keys(model_schema[count].relations);
+            for (var i = 0; i < relation_name.length; i++) {
+                lb_relation.push({
+                    "name": model_schema[count].name,
+                    "relation_name": relation_name[i],
+                    "relations": model_schema[count].relations[relation_name[i]]
+                });
+            }
+        }
+    }
+
+    // console.log(lb_relation);
+    // loopback relations
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     fs.readdir(template_folder, (err, temp) => {
@@ -43,10 +67,12 @@ fs.readdir(testFolder, (err, files) => {
             templates.push(fs.readFileSync('./Component-Templates/' + temp[i], 'utf-8'));
         }
 
+        // for (var count = 0; count < lb_relation.length; count++) {
+        //     model = lb_relation[count];
+        //     model.name = model.name.charAt(0).toUpperCase() + model.name.slice(1);
         for (var count = 0; count < model_schema.length; count++) {
             model = model_schema[count];
             model.name = model.name.charAt(0).toUpperCase() + model.name.slice(1);
-
             var dir = path.join('./ng2app/src/app/myComponents/' + model.name + 'Component');
 
             mkdirp.sync(dir, function(err) {
@@ -57,7 +83,8 @@ fs.readdir(testFolder, (err, files) => {
 
             for (var i = 0; i < temp.length; i++) {
                 html = ejs.render(templates[i], {
-                    model: model
+                    model: model,
+                    lb_relation: lb_relation
                 });
 
                 switch (temp[i]) {
@@ -252,8 +279,6 @@ fs.readdir(testFolder, (err, files) => {
         }); //end of fs.readdir... reading cli-Templates
 
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
     }); //fs.readfile(template files read from components_templates)...
 
 }); //fs.readfile(JSON files read from model.json)...
