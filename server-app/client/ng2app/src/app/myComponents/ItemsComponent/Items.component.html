@@ -1,32 +1,39 @@
-<html>
+  
 
+<html>
 <head>
 </head>
-
 <body>
-    <form (submit)="addItems()" class="form-inline">
+ <form (submit)="addItems()" class="form-inline">
 
-        <select [(ngModel)]="items.typeId" name="items" class="form-control">
-      <option *ngFor="let list of types"  [ngValue]="types.id" [attr.selected]="list.typeId==types.id ? true : 0 ">{{list.typename}}</option>
+ 
+ <div class="input-group col-sm-5">
+      <select [(ngModel)]="items.typeId" name="items" class="form-control" >
+      <option *ngFor="let list of types"  [ngValue]="list.id" [attr.selected]="items.typeId==list.id ? true : 0 ">{{list.typename}}</option>
      </select>
-
-        <select [(ngModel)]="items.sizeId" name="items" class="form-control">
-      <option *ngFor="let list of sizes"  [ngValue]="sizes.id" [attr.selected]="list.sizeId==sizes.id ? true : 0 ">{{list.sizename}}</option>
+     </div>
+    
+ <div class="input-group col-sm-5">
+      <select [(ngModel)]="items.sizeId" name="items" class="form-control" >
+      <option *ngFor="let list of sizes"  [ngValue]="list.id" [attr.selected]="items.sizeId==list.id ? true : 0 ">{{list.sizename}}</option>
      </select>
-
-        <h1>
-            Items
-        </h1>
-
+     </div>
+    
+      <h1>
+        Items
+      </h1>
+     
         <div class="input-group col-sm-5">
-            <input class="form-control" type="string" name="items" [(ngModel)]="items.name" placeholder=" name"><br>
-            <input class="form-control" type="number" name="items" [(ngModel)]="items.price" placeholder=" price"><br>
-
+          <input class="form-control" type="string" name="items" [(ngModel)]="items.name"
+              placeholder=" name"><br>
+            <input class="form-control" type="number" name="items" [(ngModel)]="items.price"
+              placeholder=" price"><br>
+            
         </div>
         <div class="input-group">
-            <button class="btn btn-primary">Submit</button>
+          <button class="btn btn-primary">Submit</button>
         </div>
-    </form>
+      </form>
 </body>
 
 </html>
