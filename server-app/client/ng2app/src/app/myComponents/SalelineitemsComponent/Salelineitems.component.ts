@@ -33,9 +33,10 @@ export class SalelineitemsComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+
   addSalelineitems() : void{
   this.salelineitemsRef.create(this.salelineitems).subscribe(() => this.salelineitems = new Salelineitems ());
-  for(var i in Salelineitems) { Salelineitems[i] = ""};
   }
 
   editSalelineitems(id) : void{
@@ -55,4 +56,5 @@ export class SalelineitemsComponent implements OnInit {
     this.salelineitems_edit_btn = false;
     for(var i in Salelineitems) { Salelineitems[i] = ""};
   }
+
 }

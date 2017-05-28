@@ -73,9 +73,14 @@ export class <%=model.name%>Component implements OnInit {
   ngOnInit() {
   }
 
+  <% if (belongsTo.length > 0){ for (var i =0 ; i< belongsTo.length ; i++){%> 
+  selected<%= belongsTo[i].relations.model %>(param): void {
+    console.log(param);
+  }
+  <%}}%>
+
   add<%= model.name %>() : void{
   this.<%= model.name.toLowerCase() %>Ref.create(this.<%= model.name.toLowerCase() %>).subscribe(() => this.<%= model.name.toLowerCase() %> = new <%= model.name %> ());
-  for(var i in <%= model.name%>) { <%= model.name%>[i] = ""};
   }
 
   edit<%= model.name %>(id) : void{
@@ -95,4 +100,5 @@ export class <%=model.name%>Component implements OnInit {
     this.<%= model.name.toLowerCase() %>_edit_btn = false;
     for(var i in <%= model.name%>) { <%= model.name%>[i] = ""};
   }
+
 }

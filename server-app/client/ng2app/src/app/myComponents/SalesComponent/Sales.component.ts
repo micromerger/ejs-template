@@ -33,9 +33,10 @@ export class SalesComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+
   addSales() : void{
   this.salesRef.create(this.sales).subscribe(() => this.sales = new Sales ());
-  for(var i in Sales) { Sales[i] = ""};
   }
 
   editSales(id) : void{
@@ -55,4 +56,5 @@ export class SalesComponent implements OnInit {
     this.sales_edit_btn = false;
     for(var i in Sales) { Sales[i] = ""};
   }
+
 }

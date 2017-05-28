@@ -1,14 +1,15 @@
+  
+
 <html>
 <head>
 </head>
 <body>
-  
-
-
+ <form (submit)="addSalelineitems()" class="form-inline">
+ 
       <h1>
         Salelineitems
       </h1>
-      <form (submit)="create()" class="form-inline">
+     
         <div class="input-group col-sm-5">
           <input class="form-control" type="number" name="salelineitems" [(ngModel)]="salelineitems.qty"
               placeholder=" qty"><br>

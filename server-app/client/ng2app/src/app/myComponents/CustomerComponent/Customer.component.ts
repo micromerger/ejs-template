@@ -33,9 +33,10 @@ export class CustomerComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+
   addCustomer() : void{
   this.customerRef.create(this.customer).subscribe(() => this.customer = new Customer ());
-  for(var i in Customer) { Customer[i] = ""};
   }
 
   editCustomer(id) : void{
@@ -55,4 +56,5 @@ export class CustomerComponent implements OnInit {
     this.customer_edit_btn = false;
     for(var i in Customer) { Customer[i] = ""};
   }
+
 }

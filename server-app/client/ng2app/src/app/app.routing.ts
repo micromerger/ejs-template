@@ -8,13 +8,7 @@ import {Routes, RouterModule} from '@angular/router';
  
  import { EmailComponent } from './myComponents/EmailComponent/Email.component';
  
- import { EquipmentComponent } from './myComponents/EquipmentComponent/Equipment.component';
- 
- import { EquipmentpartComponent } from './myComponents/EquipmentpartComponent/Equipmentpart.component';
- 
  import { ItemsComponent } from './myComponents/ItemsComponent/Items.component';
- 
- import { PartComponent } from './myComponents/PartComponent/Part.component';
  
  import { SalelineitemsComponent } from './myComponents/SalelineitemsComponent/Salelineitems.component';
  
@@ -31,13 +25,7 @@ const appRoutes: Routes = [
      
      {path : 'email' , component:EmailComponent},
      
-     {path : 'equipment' , component:EquipmentComponent},
-     
-     {path : 'equipmentpart' , component:EquipmentpartComponent},
-     
      {path : 'items' , component:ItemsComponent},
-     
-     {path : 'part' , component:PartComponent},
      
      {path : 'salelineitems' , component:SalelineitemsComponent},
      

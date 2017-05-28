@@ -40,9 +40,10 @@ export class SizeComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+
   addSize() : void{
   this.sizeRef.create(this.size).subscribe(() => this.size = new Size ());
-  for(var i in Size) { Size[i] = ""};
   }
 
   editSize(id) : void{
@@ -62,4 +63,5 @@ export class SizeComponent implements OnInit {
     this.size_edit_btn = false;
     for(var i in Size) { Size[i] = ""};
   }
+
 }

@@ -45,9 +45,18 @@ export class ItemsComponent implements OnInit {
   ngOnInit() {
   }
 
+   
+  selectedType(param): void {
+    console.log(param);
+  }
+   
+  selectedSize(param): void {
+    console.log(param);
+  }
+  
+
   addItems() : void{
   this.itemsRef.create(this.items).subscribe(() => this.items = new Items ());
-  for(var i in Items) { Items[i] = ""};
   }
 
   editItems(id) : void{
@@ -67,4 +76,5 @@ export class ItemsComponent implements OnInit {
     this.items_edit_btn = false;
     for(var i in Items) { Items[i] = ""};
   }
+
 }

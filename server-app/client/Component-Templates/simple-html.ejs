@@ -1,9 +1,5 @@
-<html>
-<head>
-</head>
-<body>
 <% 
-var belongsTo = [] , hasMany = [] , import_Models = [], rel = false;
+var belongsTo = [] , hasMany = [] , import_Models = [], rel = false , prop = [];
 
 import_Models.push(model.name);
 for (var count = 0 ;count < lb_relation.length ; count++){
@@ -29,42 +25,26 @@ for (var count = 0 ;count < lb_relation.length ; count++){
               if (!rel) import_Models.push(lb_relation[count].relations.model);
             } 
     }
-}%>  
-<% if(belongsTo.length  > 0){ for (var count = 0 ;count < belongsTo.length ; count++) {%>
-<input type="text" list="search<%=belongsTo[count].relations.model%>" placeholder="<%=model.name%> <%=belongsTo[count].relations.model%> ">
-    <datalist id="search<%=belongsTo[count].relations.model%>">
-      <option *ngFor="let list of <%=belongsTo[count].relations.model.toLowerCase()%>s" [value]="list.typename">{{list.name}}</option>
-    </datalist>
-<%}}%>
-<% if(hasMany.length  > 0){ for (var count = 0 ;count < hasMany.length ; count++) {%>
-<input type="text" list="search<%=hasMany[count].relations.model%>" placeholder="<%=model.name%> <%=hasMany[count].relations.model%> ">
-    <datalist id="search<%=hasMany[count].relations.model%>">
-      <option *ngFor="let list of <%=hasMany[count].relations.model.toLowerCase()%>s" [value]="list.typename">{{list.name}}</option>
-    </datalist>
-            <div class="container ">
-            <table class="table table-hover">
-                <thead>
-                    <tr> <%=hasMany[count].relations.model%> </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let list of <%=hasMany[count].relations.model.toLowerCase()%>s" style="margin-bottom: 10px;">
-                        <td><input class="form-control " type="string" value="{{list.emailaddress}}"> </td>
-                        <td><button class="btn btn-primary" (click)="removeEmail(list)">Delete</button></td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td><input class="form-control" type="text" #emailaddress placeholder="<%=hasMany[count].relations.model%>s" /></td>
-                        <td><button class="btn btn-primary" (click)="addEmail(emailaddress.value)">Add</button></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-<%}}%>
+}
+for (var j = 0 ;j< belongsTo.length ; j++){
+  for (var i = 0 ;i< model_schema.length ; i++){
+  if (belongsTo[j].relations.model.toLowerCase() == model_schema[i].name.toLowerCase() ) {prop.push(Object.keys(model_schema[i].properties)[0]);break;}
+}}%>  
+
+<html>
+<head>
+</head>
+<body>
+ <form (submit)="add<%= model.name %>()" class="form-inline">
+ <%if (belongsTo.length > 0){for (var count = 0 ;count < belongsTo.length ; count++){%>
+      <select [(ngModel)]="<%=model.name.toLowerCase()%>.<%= belongsTo[count].relations.model.toLowerCase()%>Id" name="<%=model.name.toLowerCase()%>" class="form-control" >
+      <option *ngFor="let list of <%= belongsTo[count].relations.model.toLowerCase() %>s"  [ngValue]="<%= belongsTo[count].relations.model.toLowerCase()%>s.id" [attr.selected]="<%=model.name.toLowerCase()%>.<%= belongsTo[count].relations.model.toLowerCase()%>Id==<%= belongsTo[count].relations.model.toLowerCase()%>s.id ? true : 0 ">{{list.<%= prop[count]%>}}</option>
+     </select>
+    <%}}%>
       <h1>
         <%= model.name %>
       </h1>
-      <form (submit)="create()" class="form-inline">
+     
         <div class="input-group col-sm-5">
           <%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue; var models = model.properties[test];%><input class="form-control" type="<%= models.type%>" name="<%= (model.name).toLowerCase()%>" [(ngModel)]="<%= (model.name).toLowerCase()%>.<%= test%>"
               placeholder=" <%= test%>"><br>

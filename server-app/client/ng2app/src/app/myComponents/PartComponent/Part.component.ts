@@ -1,6 +1,7 @@
        
 
 import { Component, OnInit } from '@angular/core';
+import {  FireLoopRef } from 'app/shared/sdk/models';
 import { RealTime } from 'app/shared/sdk/services';
 import { Observable } from 'rxjs/Observable';
 
@@ -32,6 +33,8 @@ export class PartComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+
   // addPart() : void{
   // this.partRef.create(this.part).subscribe(() => this.part = new Part ());
   // for(var i in Part) { Part[i] = ""};
@@ -54,4 +57,5 @@ export class PartComponent implements OnInit {
   //   this.part_edit_btn = false;
   //   for(var i in Part) { Part[i] = ""};
   // }
+
 }

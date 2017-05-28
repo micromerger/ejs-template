@@ -11,13 +11,7 @@ import { AppComponent } from './app.component';
  
  import { EmailComponent } from './myComponents/EmailComponent/Email.component';
  
- import { EquipmentComponent } from './myComponents/EquipmentComponent/Equipment.component';
- 
- import { EquipmentpartComponent } from './myComponents/EquipmentpartComponent/Equipmentpart.component';
- 
  import { ItemsComponent } from './myComponents/ItemsComponent/Items.component';
- 
- import { PartComponent } from './myComponents/PartComponent/Part.component';
  
  import { SalelineitemsComponent } from './myComponents/SalelineitemsComponent/Salelineitems.component';
  
@@ -33,10 +27,7 @@ import { AppComponent } from './app.component';
     
     CustomerComponent,
     EmailComponent,
-    EquipmentComponent,
-    EquipmentpartComponent,
     ItemsComponent,
-    PartComponent,
     SalelineitemsComponent,
     SalesComponent,
     SizeComponent,

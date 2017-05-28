@@ -33,9 +33,10 @@ export class EmailComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+
   addEmail() : void{
   this.emailRef.create(this.email).subscribe(() => this.email = new Email ());
-  for(var i in Email) { Email[i] = ""};
   }
 
   editEmail(id) : void{
@@ -55,4 +56,5 @@ export class EmailComponent implements OnInit {
     this.email_edit_btn = false;
     for(var i in Email) { Email[i] = ""};
   }
+
 }

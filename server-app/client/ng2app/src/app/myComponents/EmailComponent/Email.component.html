@@ -1,14 +1,15 @@
+  
+
 <html>
 <head>
 </head>
 <body>
-  
-
-
+ <form (submit)="addEmail()" class="form-inline">
+ 
       <h1>
         Email
       </h1>
-      <form (submit)="create()" class="form-inline">
+     
         <div class="input-group col-sm-5">
           <input class="form-control" type="string" name="email" [(ngModel)]="email.emailaddress"
               placeholder=" emailaddress"><br>

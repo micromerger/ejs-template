@@ -40,9 +40,10 @@ export class TypeComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+
   addType() : void{
   this.typeRef.create(this.type).subscribe(() => this.type = new Type ());
-  for(var i in Type) { Type[i] = ""};
   }
 
   editType(id) : void{
@@ -62,4 +63,5 @@ export class TypeComponent implements OnInit {
     this.type_edit_btn = false;
     for(var i in Type) { Type[i] = ""};
   }
+
 }

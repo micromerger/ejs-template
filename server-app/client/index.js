@@ -80,11 +80,11 @@ fs.readdir(testFolder, (err, files) => {
                     console.log(err);
             }); //end of mkdirp...
 
-
             for (var i = 0; i < temp.length; i++) {
                 html = ejs.render(templates[i], {
                     model: model,
-                    lb_relation: lb_relation
+                    lb_relation: lb_relation,
+                    model_schema: model_schema
                 });
 
                 switch (temp[i]) {
