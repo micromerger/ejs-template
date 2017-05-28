@@ -38,7 +38,7 @@ for (var j = 0 ;j< belongsTo.length ; j++){
  <form (submit)="add<%= model.name %>()" class="form-inline">
  <%if (belongsTo.length > 0){for (var count = 0 ;count < belongsTo.length ; count++){%>
       <select [(ngModel)]="<%=model.name.toLowerCase()%>.<%= belongsTo[count].relations.model.toLowerCase()%>Id" name="<%=model.name.toLowerCase()%>" class="form-control" >
-      <option *ngFor="let list of <%= belongsTo[count].relations.model.toLowerCase() %>s"  [ngValue]="<%= belongsTo[count].relations.model.toLowerCase()%>s.id" [attr.selected]="<%=model.name.toLowerCase()%>.<%= belongsTo[count].relations.model.toLowerCase()%>Id==<%= belongsTo[count].relations.model.toLowerCase()%>s.id ? true : 0 ">{{list.<%= prop[count]%>}}</option>
+      <option *ngFor="let list of <%= belongsTo[count].relations.model.toLowerCase() %>s"  [ngValue]="<%= belongsTo[count].relations.model.toLowerCase()%>s.id" [attr.selected]="list.<%= belongsTo[count].relations.model.toLowerCase()%>Id==<%= belongsTo[count].relations.model.toLowerCase()%>s.id ? true : 0 ">{{list.<%= prop[count]%>}}</option>
      </select>
     <%}}%>
       <h1>
