@@ -1,0 +1,161 @@
+ 
+
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
+
+<!--/.row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                <i class="fa fa-users"></i>
+                <strong>Customer</strong>
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th># ID</th>
+                            <th>NAME</th>
+                            <th>CNIC</th>
+                            <th>AGE</th>
+                            <th>order1s</th>
+                            <th>customeremailid</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr *ngFor="let customer of  customers let i=index">
+                         <td>{{ customer.id }}</td>
+                        <td>{{customer.name}}</td>
+                        <td>{{customer.cnic}}</td>
+                        <td>{{customer.age}}</td>
+                        <td><a [routerLink]="['/order1sListings',customer.id,'Customer']">Detail </a></td><td><a [routerLink]="['/emailsListings',customer.id,customer.id,'Customer']">Detail </a></td>
+                         <td>
+                            <span class="badge badge-success"><i (click)="successModal.show()" (click)="update(customer)" class="fa fa-edit"></i></span>
+                            <span class="badge badge-danger"><i (click)="dangerModal.show()" (click)="delete(customer)"  class="fa fa-trash-o"></i></span>
+                         </td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer pull-right ">
+
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+    
+
+
+<!--Modals-->
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-trash-o"> <strong>Delete</strong> Customer</i>
+                <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <h6>Do you want to Delete ?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">No</button>
+                <button type="button" (click)="addAlert()" (click)="dangerModal.hide()" class="btn btn-danger">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--Modals-->
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-users"> <strong>Customer</strong> Info Edit</i>
+                <button type="button" class="close" (click)="successModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h1>Customer</h1>
+                <form class="form-inline">
+                    <div class="input-group col-sm-5">
+                        <label for="name">NAME</label>
+                        <input class="form-control" type="string" id="name" name="name"   [(ngModel)]="customer.name" placeholder="NAME">
+                    </div><br />
+                    <div class="input-group col-sm-5">
+                        <label for="cnic">CNIC</label>
+                        <input class="form-control" type="string" id="cnic" name="cnic"   [(ngModel)]="customer.cnic" placeholder="CNIC">
+                    </div><br />
+                    <div class="input-group col-sm-5">
+                        <label for="age">AGE</label>
+                        <input class="form-control" type="number" id="age" name="age"   [(ngModel)]="customer.age" placeholder="AGE">
+                    </div><br />
+                    <div class="container ">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            Order1s </tr>
+                        </thead>
+                        <tbody>
+                        <div *ngFor="let list of order1Array ">
+                            <div class="selected ">
+                            <span>{{list.orderRef}}</span>
+                            <a (click)="removeOrder1(order1) ">x</a>
+                            </div>
+                        </div>
+                        </tbody>
+                        <hr>
+                        <tfoot>
+                        <tr>
+                            <div class="input-group">
+                                <label for="orderref">ORDERREF</label>
+                                <input class="form-control" type="string" id="orderref" name="orderref"   [(ngModel)]="customer.orderRef" placeholder="ORDERREF">
+                            </div><br />
+                            <span class="input-group-addon" (click)="addOrder1()">Add</span>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    </div>
+                    <div class="container ">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            Emails </tr>
+                        </thead>
+                        <tbody>
+                        <div *ngFor="let list of emailArray ">
+                            <div class="selected ">
+                            <span>{{list.email}}</span>
+                            <a (click)="removeEmail(email) ">x</a>
+                            </div>
+                        </div>
+                        </tbody>
+                        <hr>
+                        <tfoot>
+                        <tr>
+                            <div class="input-group">
+                                <label for="email">EMAIL</label>
+                                <input class="form-control" type="string" id="email" name="email"   [(ngModel)]="customer.email" placeholder="EMAIL">
+                            </div><br />
+                            <span class="input-group-addon" (click)="addEmail()">Add</span>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Close</button>
+                <button type="button" class="btn btn-success"  (click)="successModal.hide()"   (click)="updateCustomers()"   >Update</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

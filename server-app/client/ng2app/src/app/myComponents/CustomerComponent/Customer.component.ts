@@ -1,7 +1,7 @@
        
-
 import { Component, OnInit } from '@angular/core';
-import {  Customer , FireLoopRef } from 'app/shared/sdk/models';
+import {  Customer , Order1 , Email , FireLoopRef } from 'app/shared/sdk/models';
+import {  CustomerApi , } from 'app/shared/sdk/services';
 import { RealTime } from 'app/shared/sdk/services';
 import { Observable } from 'rxjs/Observable';
 
@@ -13,48 +13,66 @@ import { Observable } from 'rxjs/Observable';
 
 export class CustomerComponent implements OnInit {
 
-      private customer      : Customer = new Customer();
-      private customers      : Customer[] = new Array <Customer>();
+      private customer : Customer = new Customer();
+      private customers : Customer[] = new Array <Customer>();
       private customerRef : FireLoopRef<Customer>;
-      private customer_edit_btn : boolean = false;
 
   
+      private order1Array = new Array< any >();
+      private order1 : Order1= new Order1();
   
-    constructor(private rt: RealTime) {
+      private emailArray = new Array< any >();
+      private email : Email= new Email();
+  
+    constructor(private rt: RealTime 
+    , private customerApi: CustomerApi ) {
+    this.order1Array = [];this.emailArray = [];
     this.rt.onReady().subscribe(() => {
     this.customerRef = this.rt.FireLoop.ref<Customer>(Customer);
-    this.customerRef.on('change').subscribe((customer: Customer[]) => this.customers = customer);
+    this.customerRef.on('change',{order: 'id ASC'}).subscribe((customer: Customer[]) => this.customers = customer);
 
   
-   
-
     });
-  }
+  } 
   ngOnInit() {
   }
 
   
-
-  addCustomer() : void{
-  this.customerRef.create(this.customer).subscribe(() => this.customer = new Customer ());
+  createCustomers(): void {
+     this.customerApi.create(this.customer).subscribe(( customer :  Customer) => this.createRelations(customer));
+     for(var i in this.customer) { this.customer[i] = ""};
+  }
+  
+    addOrder1() {
+    
+    var temp = {'orderRef':this.order1.orderRef,};
+    this.order1Array.push(temp);
+    for(var i in this.order1) { this.order1[i] = ""};
   }
 
-  editCustomer(id) : void{
-    this.customer_edit_btn = true;
-    for (var i = 0; i< this.customers.length;i++){
-      if (this.customers[i].id  == id)
-      this.customer = this.customers[i];
-    }
+  removeOrder1(order1) {
+    let index = this.order1Array.indexOf(order1);
+    this.order1Array.splice(index, 1);
+  }
+  
+    addEmail() {
+    
+    var temp = {'email':this.email.email,};
+    this.emailArray.push(temp);
+    for(var i in this.email) { this.email[i] = ""};
   }
 
-   deleteCustomer(customer : Customer ):void{
-    this.customerRef.remove(customer).subscribe();
+  removeEmail(email) {
+    let index = this.emailArray.indexOf(email);
+    this.emailArray.splice(index, 1);
   }
-
-  customerSubmitRecord() : void{
-    this.customerRef.upsert(this.customer).subscribe();
-    this.customer_edit_btn = false;
-    for(var i in Customer) { Customer[i] = ""};
+  
+  createRelations( customer) : void { 
+    this.customerApi.createManyOrder1s(customer.id, this.order1Array).subscribe(() => this.order1Array = []);
+    this.customerApi.createManyEmails(customer.id, this.emailArray).subscribe(() => this.emailArray = []);
   }
+  
 
-}
+
+    
+} 

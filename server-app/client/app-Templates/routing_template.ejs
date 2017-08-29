@@ -1,16 +1,37 @@
-
+<% var hasMany = [] ,hasManyParams =[] , hasManyPaths = [] , belongsTo = [];
+for (var count = 0 ;count < lb_relation.length ; count++){
+ lb_relation[count].name =  lb_relation[count].name.charAt(0).toUpperCase() +  lb_relation[count].name.slice(1); 
+ lb_relation[count].relations.model =  lb_relation[count].relations.model.charAt(0).toUpperCase() +  lb_relation[count].relations.model.slice(1);
+}
+for (var count = 0 ;count < lb_relation.length ; count++){
+   if (lb_relation[count].relations.type == "belongsTo"){
+    belongsTo.push(lb_relation[count]);
+  } 
+  if (lb_relation[count].relations.type == "hasMany"  && !("through" in lb_relation[count].relations)){
+    hasMany.push(lb_relation[count]);
+  }
+}
+ for (var i=0 ; i< hasMany.length ; i++){ for (var j=0 ;j< model_schema.length ; j++){
+       if ( (hasMany[i].relations.type == "hasMany" && hasMany[i].relation_name.toLowerCase() == model_schema[j].name.toLowerCase()) 
+       || ( (hasMany[i].relation_name.toLowerCase()).slice(0, -1) == model_schema[j].name.toLowerCase() )){
+         hasManyPaths.push({"path" : hasMany[i].relation_name , "component" :model_schema[j].name  , "rel_with" : hasMany[i].relations.model});
+         hasManyParams.push({"rel_from" : hasMany[i].name , "rel_with" : hasMany[i].relations.model})
+}}}%>
 import {ModuleWithProviders} from '@angular/core';
 import {NgModule} from "@angular/core";
 import {Routes, RouterModule} from '@angular/router';
 
 <% for (var count = 0 ; count <  model_schema.length ; count++){%>
  import { <%= model_schema[count].name %>Component } from './myComponents/<%= model_schema[count].name %>Component/<%= model_schema[count].name%>.component';
+  import { <%= model_schema[count].name %>ComponentListing } from './myComponents/<%= model_schema[count].name %>ListingComponent/<%= model_schema[count].name%>.listing.component';
  <%}%>
 
 const appRoutes: Routes = [
     <% for (var count = 0 ; count <  model_schema.length ; count++){%>
      {path : '<%= model_schema[count].name.toLowerCase() %>' , component:<%= model_schema[count].name %>Component},
-     <%}%>
+     {path : '<%= model_schema[count].name.toLowerCase() %>Listing' , component:<%= model_schema[count].name %>ComponentListing},<%}for (var i=0 ; i< hasManyPaths.length ; i++){ %>
+     {path : '<%= hasManyPaths[i].path %>Listings<% for (var j=0 ; j< hasManyParams.length ; j++){if (hasManyPaths[i].rel_with == hasManyParams[j].rel_with){%>/:<%= hasManyParams[j].rel_from.toLowerCase()%>Id<%}}%>/:modelName' , component:<%= hasManyPaths[i].component %>ComponentListing},<%}for (var i=0 ; i< belongsTo.length ; i++){ %> 
+     {path : '<%= belongsTo[i].relations.model.toLowerCase() %>Listing/:<%= belongsTo[i].relations.model.toLowerCase() %>Id' , component:<%= belongsTo[i].relations.model %>ComponentListing},<%}%>
      // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];

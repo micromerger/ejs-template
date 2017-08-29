@@ -1,0 +1,41 @@
+
+  <html>
+  <head>
+        <title>Model1</title>
+  </head>
+  <body>
+    <h1>
+      Model1
+    </h1>
+                    <div class="container">
+                      <form (submit)="createModel1()">
+                          <label for="model1name">MODEL1NAME</label>
+                          <input class="form-control" type="string" id="model1name" name="model1name"  [(ngModel)]="model1.model1name" placeholder="MODEL1NAME">
+                          <br />
+                            <strong>Assembly</strong>
+                            <div class="container">
+                              <div style="max-height:200px; overflow: auto;margin:10px">
+                                <table class="table table-stripped table-condensed tab-border">
+                                  <thead>
+                                    <tr>
+                                      <th># ID</th>
+                                        <th>assemblyname</th>
+                                        <th><input type="text" name="inputName" #inputName0 (keyup)=" Assemblyfiltering(inputName0.value)" /></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let assembly of filterAssembly let i=index">
+                                      <td>{{assembly.id}}</td>
+                                      
+                                        <td>{{assembly.assemblyname}}</td>
+                                          <td><input type="checkbox" class="checkBox" (change)="selectAssemblys($event , assembly.id)" name="chk" [(ngModel)]="checkedAssembly[i]"/></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            <button type=" " class="btn btn-primary ">Submit</button>
+                      </form>
+                    </div>
+  </body>
+  </html>

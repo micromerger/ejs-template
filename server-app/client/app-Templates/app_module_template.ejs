@@ -5,15 +5,19 @@ import { HttpModule } from '@angular/http';
 import { SDKBrowserModule } from './shared/sdk';
 import { routing} from './app.routing'
 import { AppComponent } from './app.component';
+import { ModalModule,AlertModule } from 'ngx-bootstrap';
 
 <% for (var count = 0 ; count <  model_schema.length ; count++){%>
  import { <%= model_schema[count].name %>Component } from './myComponents/<%= model_schema[count].name %>Component/<%= model_schema[count].name%>.component';
+ import { <%= model_schema[count].name %>ComponentListing } from './myComponents/<%= model_schema[count].name %>ListingComponent/<%= model_schema[count].name%>.listing.component';
  <%}%>
 @NgModule({
   declarations: [
     AppComponent,
     <% for (var count = 0 ; count <  model_schema.length ; count++){%>
-    <%= model_schema[count].name %>Component,<%}%>
+    <%= model_schema[count].name %>Component,
+    <%= model_schema[count].name %>ComponentListing,
+    <%}%>
     
   ],
   imports: [
@@ -21,7 +25,9 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule,
     routing,
-    SDKBrowserModule.forRoot()
+    SDKBrowserModule.forRoot(),
+    ModalModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

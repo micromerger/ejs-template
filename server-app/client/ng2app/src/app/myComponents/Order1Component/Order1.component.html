@@ -1,0 +1,23 @@
+
+  <html>
+  <head>
+        <title>Order1</title>
+  </head>
+  <body>
+    <h1>
+      Order1
+    </h1>
+        <form (submit)="addOrder1()" class="form-inline">
+          <div class="container">
+            <div class="input-group col-sm-8">
+                <label for="orderref">ORDERREF</label>
+                <input class="form-control" type="string" id="orderref" name="orderref"   [(ngModel)]="order1.orderRef"placeholder=" ORDERREF" />
+            </div><br />
+            <div class="input-group">
+              <button class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+        
+  </body>
+  </html>

@@ -1,0 +1,134 @@
+ 
+
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
+
+<!--/.row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                <i class="fa fa-users"></i>
+                <strong>Customer1</strong>
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th># ID</th>
+                            <th>NAME</th>
+                            <th>CNIC</th>
+                            <th>AGE</th>
+                            <th>emails</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr *ngFor="let customer1 of  customer1s let i=index">
+                         <td>{{ customer1.id }}</td>
+                        <td>{{customer1.name}}</td>
+                        <td>{{customer1.cnic}}</td>
+                        <td>{{customer1.age}}</td>
+                        <td><a [routerLink]="['/emailsListings',customer1.id,customer1.id,'Customer1']">Detail </a></td>
+                         <td>
+                            <span class="badge badge-success"><i (click)="successModal.show()" (click)="update(customer1)" class="fa fa-edit"></i></span>
+                            <span class="badge badge-danger"><i (click)="dangerModal.show()" (click)="delete(customer1)"  class="fa fa-trash-o"></i></span>
+                         </td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer pull-right ">
+
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+    
+
+
+<!--Modals-->
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-trash-o"> <strong>Delete</strong> Customer1</i>
+                <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <h6>Do you want to Delete ?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">No</button>
+                <button type="button" (click)="addAlert()" (click)="dangerModal.hide()" class="btn btn-danger">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--Modals-->
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-users"> <strong>Customer1</strong> Info Edit</i>
+                <button type="button" class="close" (click)="successModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h1>Customer1</h1>
+                <form class="form-inline">
+                    <div class="input-group col-sm-5">
+                        <label for="name">NAME</label>
+                        <input class="form-control" type="string" id="name" name="name"   [(ngModel)]="customer1.name" placeholder="NAME">
+                    </div><br />
+                    <div class="input-group col-sm-5">
+                        <label for="cnic">CNIC</label>
+                        <input class="form-control" type="string" id="cnic" name="cnic"   [(ngModel)]="customer1.cnic" placeholder="CNIC">
+                    </div><br />
+                    <div class="input-group col-sm-5">
+                        <label for="age">AGE</label>
+                        <input class="form-control" type="number" id="age" name="age"   [(ngModel)]="customer1.age" placeholder="AGE">
+                    </div><br />
+                    <div class="container ">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            Emails </tr>
+                        </thead>
+                        <tbody>
+                        <div *ngFor="let list of emailArray ">
+                            <div class="selected ">
+                            <span>{{list.email}}</span>
+                            <a (click)="removeEmail(email) ">x</a>
+                            </div>
+                        </div>
+                        </tbody>
+                        <hr>
+                        <tfoot>
+                        <tr>
+                            <div class="input-group">
+                                <label for="email">EMAIL</label>
+                                <input class="form-control" type="string" id="email" name="email"   [(ngModel)]="customer1.email" placeholder="EMAIL">
+                            </div><br />
+                            <span class="input-group-addon" (click)="addEmail()">Add</span>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Close</button>
+                <button type="button" class="btn btn-success"  (click)="successModal.hide()"   (click)="updateCustomer1s()"   >Update</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

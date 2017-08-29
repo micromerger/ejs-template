@@ -49,13 +49,17 @@ import { SocketDriver } from './sockets/socket.driver';
 import { SocketConnection } from './sockets/socket.connections';
 import { RealTime } from './services/core/real.time';
 import { UserApi } from './services/custom/User';
-import { ItemsApi } from './services/custom/Items';
-import { SalelineitemsApi } from './services/custom/Salelineitems';
-import { SalesApi } from './services/custom/Sales';
-import { TypeApi } from './services/custom/Type';
-import { SizeApi } from './services/custom/Size';
 import { CustomerApi } from './services/custom/Customer';
+import { AppiontmentApi } from './services/custom/Appiontment';
+import { PatientApi } from './services/custom/Patient';
+import { DoctorApi } from './services/custom/Doctor';
+import { Order1Api } from './services/custom/Order1';
 import { EmailApi } from './services/custom/Email';
+import { ModelApi } from './services/custom/Model';
+import { Model1Api } from './services/custom/Model1';
+import { Model2Api } from './services/custom/Model2';
+import { Customer1Api } from './services/custom/Customer1';
+import { AssemblyApi } from './services/custom/Assembly';
 /**
 * @module SDKBrowserModule
 * @description
@@ -88,13 +92,17 @@ export class SDKBrowserModule {
         SDKModels,
         RealTime,
         UserApi,
-        ItemsApi,
-        SalelineitemsApi,
-        SalesApi,
-        TypeApi,
-        SizeApi,
         CustomerApi,
+        AppiontmentApi,
+        PatientApi,
+        DoctorApi,
+        Order1Api,
         EmailApi,
+        ModelApi,
+        Model1Api,
+        Model2Api,
+        Customer1Api,
+        AssemblyApi,
         internalStorageProvider,
         { provide: SDKStorage, useClass: StorageBrowser },
         { provide: SocketDriver, useClass: SocketBrowser }

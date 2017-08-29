@@ -1,0 +1,47 @@
+
+  <html>
+  <head>
+        <title>Doctor</title>
+  </head>
+  <body>
+    <h1>
+      Doctor
+    </h1>
+          <div class="container">
+                      <form (submit)="createDoctor()">
+                        
+                          <label for="name">NAME</label>
+                          <input class="form-control" type="string" id="name" name="name"  [(ngModel)]="doctor.name" placeholder="NAME">
+                          
+                          <label for="specilist">SPECILIST</label>
+                          <input class="form-control" type="string" id="specilist" name="specilist"  [(ngModel)]="doctor.specilist" placeholder="SPECILIST">
+                          <br />
+                            <strong>Patient</strong>
+                            <div class="container">
+                              <div style="max-height:200px; overflow: auto;margin:10px">
+                                <table class="table table-stripped table-condensed tab-border">
+                                  <thead>
+                                    <tr>
+                                      <th># ID</th>
+                                        <th>name</th>
+                                        <th>age</th>
+                                        <th><input type="text" name="inputName" #inputName0 (keyup)=" Patientfiltering(inputName0.value)" /></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let patient of filterPatient let i=index">
+                                      <td>{{patient.id}}</td>
+                                      
+                                        <td>{{patient.name}}</td>
+                                        <td>{{patient.age}}</td>
+                                          <td><input type="checkbox" class="checkBox" (change)="selectPatients($event , patient.id)" name="chk" [(ngModel)]="checkedPatient[i]"/></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            <button type=" " class="btn btn-primary ">Submit</button>
+                      </form>
+                    </div>
+  </body>
+  </html>

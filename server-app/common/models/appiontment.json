@@ -1,0 +1,31 @@
+{
+  "name": "appiontment",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date"
+    },
+    "refno": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "doctor": {
+      "type": "belongsTo",
+      "model": "doctor",
+      "foreignKey": ""
+    },
+    "patient": {
+      "type": "belongsTo",
+      "model": "patient",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

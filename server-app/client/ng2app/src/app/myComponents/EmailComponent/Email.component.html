@@ -1,25 +1,23 @@
-  
 
-<html>
-<head>
-</head>
-<body>
- <form (submit)="addEmail()" class="form-inline">
-
- 
-      <h1>
-        Email
-      </h1>
-     
-        <div class="input-group col-sm-5">
-          <input class="form-control" type="string" name="email" [(ngModel)]="email.emailaddress"
-              placeholder=" emailaddress"><br>
-            
-        </div>
-        <div class="input-group">
-          <button class="btn btn-primary">Submit</button>
-        </div>
-      </form>
-</body>
-
-</html>
+  <html>
+  <head>
+        <title>Email</title>
+  </head>
+  <body>
+    <h1>
+      Email
+    </h1>
+        <form (submit)="addEmail()" class="form-inline">
+          <div class="container">
+            <div class="input-group col-sm-8">
+                <label for="email">EMAIL</label>
+                <input class="form-control" type="string" id="email" name="email"   [(ngModel)]="email.email"placeholder=" EMAIL" />
+            </div><br />
+            <div class="input-group">
+              <button class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+        
+  </body>
+  </html>

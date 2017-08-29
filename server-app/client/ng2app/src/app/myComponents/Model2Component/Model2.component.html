@@ -1,0 +1,23 @@
+
+  <html>
+  <head>
+        <title>Model2</title>
+  </head>
+  <body>
+    <h1>
+      Model2
+    </h1>
+        <form (submit)="addModel2()" class="form-inline">
+          <div class="container">
+            <div class="input-group col-sm-8">
+                <label for="model2name">MODEL2NAME</label>
+                <input class="form-control" type="string" id="model2name" name="model2name"   [(ngModel)]="model2.model2name"placeholder=" MODEL2NAME" />
+            </div><br />
+            <div class="input-group">
+              <button class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+        
+  </body>
+  </html>

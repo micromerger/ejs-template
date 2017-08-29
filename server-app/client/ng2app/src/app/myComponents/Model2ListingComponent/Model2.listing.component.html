@@ -1,0 +1,96 @@
+ 
+
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
+
+<!--/.row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                <i class="fa fa-users"></i>
+                <strong>Model2</strong>
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th># ID</th>
+                            <th>MODEL2NAME</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr *ngFor="let model2 of  model2s let i=index">
+                         <td>{{ model2.id }}</td>
+                        <td>{{model2.model2name}}</td>
+                         <td>
+                            <span class="badge badge-success"><i (click)="successModal.show()" (click)="update(model2)"class="fa fa-edit"></i></span>
+                            <span class="badge badge-danger"><i (click)="dangerModal.show()" (click)="delete(model2)"  class="fa fa-trash-o"></i></span>
+                         </td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer pull-right ">
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+    
+
+
+<!--Modals-->
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-trash-o"> <strong>Delete</strong> Model2</i>
+                <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <h6>Do you want to Delete ?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">No</button>
+                <button type="button" (click)="addAlert()" (click)="dangerModal.hide()" class="btn btn-danger">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--Modals-->
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-users"> <strong>Model2</strong> Info Edit</i>
+                <button type="button" class="close" (click)="successModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h1>Model2</h1>
+                <form class="form-inline">
+                <div class="container">
+                    <div class="input-group col-sm-5">
+                        <label for="model2name">MODEL2NAME</label>
+                        <input class="form-control" type="string" id="model2name" name="model2name" [(ngModel)]="model2.model2name"  placeholder="MODEL2NAME" />
+                    </div><br />
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Close</button>
+                <button type="button" class="btn btn-success"  (click)="successModal.hide()"   (click)="updateModel2()"  >Update</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

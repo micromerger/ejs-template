@@ -1,0 +1,63 @@
+
+  <html>
+  <head>
+        <title>Model</title>
+  </head>
+  <body>
+    <h1>
+      Model
+    </h1>
+                    <div class="container">
+                      <form (submit)="createModel()">
+                          <label for="modelname">MODELNAME</label>
+                          <input class="form-control" type="string" id="modelname" name="modelname"  [(ngModel)]="model.modelname" placeholder="MODELNAME">
+                          <br />
+                            <strong>Model1</strong>
+                            <div class="container">
+                              <div style="max-height:200px; overflow: auto;margin:10px">
+                                <table class="table table-stripped table-condensed tab-border">
+                                  <thead>
+                                    <tr>
+                                      <th># ID</th>
+                                        <th>model1name</th>
+                                        <th><input type="text" name="inputName" #inputName0 (keyup)=" Model1filtering(inputName0.value)" /></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let model1 of filterModel1 let i=index">
+                                      <td>{{model1.id}}</td>
+                                      
+                                        <td>{{model1.model1name}}</td>
+                                          <td><input type="checkbox" class="checkBox" (change)="selectModel1s($event , model1.id)" name="chk" [(ngModel)]="checkedModel1[i]"/></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            <strong>Model2</strong>
+                            <div class="container">
+                              <div style="max-height:200px; overflow: auto;margin:10px">
+                                <table class="table table-stripped table-condensed tab-border">
+                                  <thead>
+                                    <tr>
+                                      <th># ID</th>
+                                        <th>model2name</th>
+                                        <th><input type="text" name="inputName" #inputName1 (keyup)=" Model2filtering(inputName1.value)" /></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let model2 of filterModel2 let i=index">
+                                      <td>{{model2.id}}</td>
+                                      
+                                        <td>{{model2.model2name}}</td>
+                                          <td><input type="checkbox" class="checkBox" (change)="selectModel2s($event , model2.id)" name="chk" [(ngModel)]="checkedModel2[i]"/></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            <button type=" " class="btn btn-primary ">Submit</button>
+                      </form>
+                    </div>
+  </body>
+  </html>

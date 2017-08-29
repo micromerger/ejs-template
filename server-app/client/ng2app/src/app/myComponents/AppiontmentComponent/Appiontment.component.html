@@ -1,0 +1,36 @@
+
+  <html>
+  <head>
+        <title>Appiontment</title>
+  </head>
+  <body>
+    <h1>
+      Appiontment
+    </h1>
+      <form (submit)="addAppiontment()" class="form-inline">
+          <div class="input-group col-sm-8">
+             <label for="doctorId">DOCTOR</label>
+            <select id="doctorId" [(ngModel)]="appiontment.doctorId" name="appiontment" class="form-control">
+                  <option *ngFor="let list of doctors"  [ngValue]="list.id" >{{list.name}}</option>
+            </select>
+          </div><br />
+          <div class="input-group col-sm-8">
+             <label for="patientId">PATIENT</label>
+            <select id="patientId" [(ngModel)]="appiontment.patientId" name="appiontment" class="form-control">
+                  <option *ngFor="let list of patients"  [ngValue]="list.id" >{{list.name}}</option>
+            </select>
+          </div><br />
+            <div class="input-group col-sm-8">
+                <label for="date">DATE</label>
+                <input class="form-control" type="date" id="date" name="date"  [(ngModel)]="appiontment.date" placeholder="DATE" />
+            </div><br />
+            <div class="input-group col-sm-8">
+                <label for="refno">REFNO</label>
+                <input class="form-control" type="number" id="refno" name="refno"  [(ngModel)]="appiontment.refno" placeholder="REFNO" />
+            </div><br />
+            <div class="input-group">
+              <button class="btn btn-primary">Submit</button>
+            </div>
+      </form>
+  </body>
+  </html>

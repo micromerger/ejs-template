@@ -1,0 +1,100 @@
+<% 
+var belongsTo = [] , hasMany = [] , hasManyThrough = [], hasAndBelongsToMany = [], import_Models = [], rel = false;
+
+import_Models.push(model.name);
+for (var count = 0 ;count < lb_relation.length ; count++){
+ lb_relation[count].name =  lb_relation[count].name.charAt(0).toUpperCase() +  lb_relation[count].name.slice(1); 
+ lb_relation[count].relations.model =  lb_relation[count].relations.model.charAt(0).toUpperCase() +  lb_relation[count].relations.model.slice(1);
+}
+
+for (var count = 0 ;count < lb_relation.length ; count++){
+           if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "belongsTo"){
+              belongsTo.push(lb_relation[count]);
+              rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+            if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "hasMany"  && !("through" in lb_relation[count].relations)){
+              hasMany.push(lb_relation[count]);
+               rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+            if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "hasMany"  && ("through" in lb_relation[count].relations)){
+              hasManyThrough.push(lb_relation[count]);
+               rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+            if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "hasAndBelongsToMany"){
+              hasAndBelongsToMany.push(lb_relation[count]);
+               rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            }
+}%> 
+
+import { Component } from '@angular/core';
+import {  <% if(import_Models.length  > 0){ for (var count = 0 ;count < import_Models.length ; count++) {%> <%= import_Models[count] %> ,<%}}%> FireLoopRef } from 'app/shared/sdk/models';
+<%for(var i =0 ; i< lb_relation.length;i++){if(model.name.toLowerCase()==lb_relation[i].relations.model.toLowerCase() && lb_relation[i].relations.type=="hasMany"){%>import { ActivatedRoute } from '@angular/router';<%}}%>
+import { RealTime } from 'app/shared/sdk/services';
+@Component({
+  selector: 'app-<%=model.name%>Listing',
+  templateUrl: './<%=model.name%>.listing.component.html',
+  styleUrls: ['./<%=model.name%>.listing.component.css']
+})
+export class  <%=model.name%>ComponentListing {
+
+public alerts: any = [];
+public successModal;
+public dangerModal;<%for(var i =0 ; i< lb_relation.length;i++){if(model.name.toLowerCase()==lb_relation[i].relations.model.toLowerCase() && lb_relation[i].relations.type=="hasMany"){%>
+  id: number;
+  private sub: any;<%}}%>
+public deleteObj;
+
+private <%= model.name.toLowerCase() %> : <%=model.name%> = new <%= model.name %>();
+private <%= model.name.toLowerCase() %>s : <%=model.name%> [] = new Array <<%=model.name%> >();
+private <%=model.name%>Ref : FireLoopRef<<%=model.name%> >;
+    constructor(
+      private rt: RealTime ,
+      <%for(var i =0 ; i< lb_relation.length;i++){if(model.name.toLowerCase()==lb_relation[i].relations.model.toLowerCase() && lb_relation[i].relations.type=="hasMany"){%>private route: ActivatedRoute <%}}%>
+      ) {
+      this.rt.onReady().subscribe(() => {
+      this.<%=model.name%>Ref = this.rt.FireLoop.ref<<%=model.name%>>(<%=model.name%>);
+      <%var test= false;for(var i =0 ; i<lb_relation.length;i++){if(model.name.toLowerCase()==lb_relation[i].relations.model.toLowerCase() && lb_relation[i].relations.type=="hasMany"){test = true;%>
+      if (this.id == null){
+      this.<%=model.name%>Ref.on('change',{order: 'id ASC'}).subscribe((<%= model.name.toLowerCase() %>s : <%=model.name%>[]) => this.<%= model.name.toLowerCase() %>s = <%= model.name.toLowerCase() %>s);
+      }
+      else if (this.id != null){
+        this.<%=model.name%>Ref.on('change',{order: 'id ASC' <%for(var i =0 ; i<lb_relation.length;i++){if(model.name.toLowerCase()==lb_relation[i].relations.model.toLowerCase() && lb_relation[i].relations.type=="hasMany"){%>,where : {<%if(lb_relation[i].relations.foreignKey!= ""){%><%=lb_relation[i].relations.foreignKey%><%}else{%><%=lb_relation[i].name.toLowerCase()%>Id <%}%>: this.id}<%}}%>}).subscribe((<%= model.name.toLowerCase() %>s : <%=model.name%>[]) => this.<%= model.name.toLowerCase() %>s = <%= model.name.toLowerCase() %>s);
+      }<%}}
+      if (test == false){%>this.<%=model.name%>Ref.on('change',{order: 'id ASC'}).subscribe((<%= model.name.toLowerCase() %>s : <%=model.name%>[]) => this.<%= model.name.toLowerCase() %>s = <%= model.name.toLowerCase() %>s);<%}%>
+      });
+  }
+  ngOnInit() {<%for(var i =0 ; i< lb_relation.length;i++){if(model.name.toLowerCase()==lb_relation[i].relations.model.toLowerCase() && lb_relation[i].relations.type=="hasMany"){%>
+     this.sub = this.route.params.subscribe(params => {
+       if (params['id'] == undefined ){console.log("first"); this.id = null;}// (+) converts string 'id' to a number
+       else if (params['id'] != undefined){console.log("sec");this.id = +params['id'];}
+          });<%}}%>
+  }
+
+  public delete(obj) : void {
+    this.deleteObj = obj;
+  }
+  remove(<%=model.name.toLowerCase()%>: <%=model.name%>): void {
+    this.<%=model.name%>Ref.remove(<%=model.name.toLowerCase()%>).subscribe();
+  }
+  
+ public addAlert(): void {
+   this.remove(this.deleteObj);
+    this.alerts.push({
+      type: 'success',
+      msg: `Successfully deleted`,
+      timeout: 5000
+    });
+  }
+} 

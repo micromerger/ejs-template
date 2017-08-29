@@ -1,0 +1,59 @@
+
+  <html>
+  <head>
+        <title>Customer1</title>
+  </head>
+  <body>
+    <h1>
+      Customer1
+    </h1>
+         <form class="form-inline" (submit)="createCustomer1s()">
+                <div class="input-group col-sm-8">
+                    <label for="name">NAME</label>
+                    <input class="form-control" type="string" id="name" name="name"   [(ngModel)]="customer1.name" placeholder="NAME">
+                </div><br />
+                <div class="input-group col-sm-8">
+                    <label for="cnic">CNIC</label>
+                    <input class="form-control" type="string" id="cnic" name="cnic"   [(ngModel)]="customer1.cnic" placeholder="CNIC">
+                </div><br />
+                <div class="input-group col-sm-8">
+                    <label for="age">AGE</label>
+                    <input class="form-control" type="number" id="age" name="age"   [(ngModel)]="customer1.age" placeholder="AGE">
+                </div><br />
+                
+                <div class="container ">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        Emails </tr>
+                    </thead>
+                    <tbody>
+                      <div *ngFor="let list of emailArray ">
+                        <div class="selected ">
+                          <span>{{list.email}}</span>
+                          <a (click)="removeEmail(email) ">x</a>
+                        </div>
+                      </div>
+                    </tbody>
+                    <hr>
+                    <tfoot>
+                      <tr>
+                        <div class="input-group">
+                          
+                            <label for="email">EMAIL</label>
+                            <input class="form-control" type="string" id="email" name="email"  [(ngModel)]="email.email" placeholder="EMAIL">
+                            
+                        </div><br />
+                        <span class="input-group-addon" (click)="addEmail()">Add</span>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                
+                <div class="input-group ">
+                   <button type="submit " class="btn btn-primary">Submit</button>
+                </div>
+          </form>
+          
+  </body>
+  </html>

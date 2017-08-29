@@ -1,0 +1,117 @@
+ 
+
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
+
+<!--/.row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                <i class="fa fa-users"></i>
+                <strong>Appiontment</strong>
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th># ID</th>
+                            <th>DATE</th>
+                            <th>REFNO</th>
+                            <th>doctor ID</th><th>patient ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr *ngFor="let appiontment of  appiontments let i=index">
+                         <td>{{ appiontment.id }}</td>
+                        <td>{{appiontment.date}}</td>
+                        <td>{{appiontment.refno}}</td>
+                        <td><a [routerLink]="['/doctorListing' , appiontment.doctorId]">{{appiontment.doctorId}}</a></td>
+                        <td><a [routerLink]="['/patientListing' , appiontment.patientId]">{{appiontment.patientId}}</a></td>
+                         <td>
+                            <span class="badge badge-success"><i (click)="successModal.show()" (click)="update(appiontment)" class="fa fa-edit"></i></span>
+                            <span class="badge badge-danger"><i (click)="dangerModal.show()" (click)="delete(appiontment)"  class="fa fa-trash-o"></i></span>
+                         </td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer pull-right ">
+
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+
+    
+
+
+<!--Modals-->
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-trash-o"> <strong>Delete</strong> Appiontment</i>
+                <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <h6>Do you want to Delete ?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">No</button>
+                <button type="button" (click)="addAlert()" (click)="dangerModal.hide()" class="btn btn-danger">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--Modals-->
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-users"> <strong>Appiontment</strong> Info Edit</i>
+                <button type="button" class="close" (click)="successModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h1>Appiontment</h1>
+                <form class="form-inline">
+                    <div class="input-group col-sm-5">
+                        <label for="doctorId">DOCTOR</label>
+                        <select name="doctorId" id="doctorId" class="form-control">
+                            <option *ngFor="let list of doctors"  [ngValue]="list.id" [selected] = "appiontment.doctorId == list.id" >{{list.name}}</option>
+                        </select>
+                    </div><br />
+                    <div class="input-group col-sm-5">
+                        <label for="patientId">PATIENT</label>
+                        <select name="patientId" id="patientId" class="form-control">
+                            <option *ngFor="let list of patients"  [ngValue]="list.id" [selected] = "appiontment.patientId == list.id" >{{list.name}}</option>
+                        </select>
+                    </div><br />
+                        <div class="input-group col-sm-5">
+                            <label for="date">DATE</label>
+                            <input class="form-control" type="date" id="date" name="date"  [(ngModel)]="appiontment.date" placeholder="DATE" />
+                        </div><br />
+                        <div class="input-group col-sm-5">
+                            <label for="refno">REFNO</label>
+                            <input class="form-control" type="number" id="refno" name="refno"  [(ngModel)]="appiontment.refno" placeholder="REFNO" />
+                        </div><br />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Close</button>
+                <button type="button" class="btn btn-success"  (click)="successModal.hide()"     (click)="updateAppiontment()" >Update</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

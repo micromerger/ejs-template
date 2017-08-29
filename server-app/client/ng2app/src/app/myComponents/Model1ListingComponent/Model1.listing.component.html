@@ -1,0 +1,116 @@
+ 
+
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
+
+<!--/.row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                <i class="fa fa-users"></i>
+                <strong>Model1</strong>
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th># ID</th>
+                            <th>MODEL1NAME</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr *ngFor="let model1 of  model1s let i=index">
+                         <td>{{ model1.id }}</td>
+                        <td>{{model1.model1name}}</td>
+                         <td>
+                            <span class="badge badge-success"><i (click)="successModal.show()" (click)="update(model1)"class="fa fa-edit"></i></span>
+                            <span class="badge badge-danger"><i (click)="dangerModal.show()" (click)="delete(model1)"  class="fa fa-trash-o"></i></span>
+                         </td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer pull-right ">
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+    
+
+
+<!--Modals-->
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-trash-o"> <strong>Delete</strong> Model1</i>
+                <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <h6>Do you want to Delete ?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">No</button>
+                <button type="button" (click)="addAlert()" (click)="dangerModal.hide()" class="btn btn-danger">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--Modals-->
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-users"> <strong>Model1</strong> Info Edit</i>
+                <button type="button" class="close" (click)="successModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h1>Model1</h1>
+            <div class="container">
+                <form>
+                    <label for="model1name">MODEL1NAME</label>
+                    <input class="form-control" type="string"id="model1name" name="model1name"  [(ngModel)]="model1.model1name" placeholder="MODEL1NAME">
+                   <br /> 
+                    <strong>Assembly</strong>
+                    <div class="container">
+                        <div style="max-height:200px; overflow: auto;margin:10px">
+                            <table class="table table-stripped table-condensed tab-border">
+                                <thead>
+                                    <tr>
+                                      <th># ID</th>
+                                        <th>assemblyname</th>
+                                        <th><input type="text" name="inputName" #inputName0 (keyup)=" Assemblyfiltering(inputName0.value)" /></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let assembly of filterAssembly let i=index">
+                                        <td>{{assembly.id}}</td> 
+                                        <td>{{assembly.assemblyname}}</td>
+                                        <td><input type="checkbox" class="checkBox" (change)="selectAssemblys($event , assembly.id)" name="chk" [checked]="model1Assemblys.indexOf(assembly.id) >= 0"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Close</button>
+                <button type="button" class="btn btn-success"  (click)="successModal.hide()"   (click)="updateModel1()"   >Update</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

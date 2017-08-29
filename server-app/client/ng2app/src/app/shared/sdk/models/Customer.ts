@@ -1,18 +1,25 @@
 /* tslint:disable */
 import {
+  Order1,
   Email
 } from '../index';
 
 declare var Object: any;
 export interface CustomerInterface {
   "name"?: string;
+  "cnic"?: string;
+  "age"?: number;
   "id"?: number;
+  order1s?: Order1[];
   emails?: Email[];
 }
 
 export class Customer implements CustomerInterface {
   "name": string;
+  "cnic": string;
+  "age": number;
   "id": number;
+  order1s: Order1[];
   emails: Email[];
   constructor(data?: CustomerInterface) {
     Object.assign(this, data);
@@ -49,12 +56,25 @@ export class Customer implements CustomerInterface {
           name: 'name',
           type: 'string'
         },
+        "cnic": {
+          name: 'cnic',
+          type: 'string'
+        },
+        "age": {
+          name: 'age',
+          type: 'number'
+        },
         "id": {
           name: 'id',
           type: 'number'
         },
       },
       relations: {
+        order1s: {
+          name: 'order1s',
+          type: 'Order1[]',
+          model: 'Order1'
+        },
         emails: {
           name: 'emails',
           type: 'Email[]',

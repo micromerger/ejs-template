@@ -1,0 +1,28 @@
+{
+  "name": "model",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "modelname": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "model1s": {
+      "type": "hasAndBelongsToMany",
+      "model": "model1",
+      "foreignKey": ""
+    },
+    "model2s": {
+      "type": "hasAndBelongsToMany",
+      "model": "model2",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

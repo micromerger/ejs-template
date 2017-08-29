@@ -1,0 +1,185 @@
+<% 
+var belongsTo = [] , hasMany = [] , hasManyThrough = [], hasAndBelongsToMany = [], import_Models = [], rel = false;
+
+import_Models.push(model.name);
+for (var count = 0 ;count < lb_relation.length ; count++){
+ lb_relation[count].name =  lb_relation[count].name.charAt(0).toUpperCase() +  lb_relation[count].name.slice(1); 
+ lb_relation[count].relations.model =  lb_relation[count].relations.model.charAt(0).toUpperCase() +  lb_relation[count].relations.model.slice(1);
+}
+
+for (var count = 0 ;count < lb_relation.length ; count++){
+           if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "belongsTo"){
+              belongsTo.push(lb_relation[count]);
+              rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+            if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "hasMany"  && !("through" in lb_relation[count].relations)){
+              hasMany.push(lb_relation[count]);
+               rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+            if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "hasMany"  && ("through" in lb_relation[count].relations)){
+              hasManyThrough.push(lb_relation[count]);
+               rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            } 
+            if (model.name == lb_relation[count].name && lb_relation[count].relations.type == "hasAndBelongsToMany"){
+              hasAndBelongsToMany.push(lb_relation[count]);
+               rel = false;
+              for (var check =0 ;check< import_Models.length ; check++)
+                if (import_Models[check] == lb_relation[count].relations.model)  rel = true;
+              if (!rel) import_Models.push(lb_relation[count].relations.model);
+            }
+};%>
+
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
+<% if ((belongsTo.length == 0 && hasAndBelongsToMany.length == 0 && hasMany.length == 0 )|| hasManyThrough.length != 0){%>
+<!--/.row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                <i class="fa fa-users"></i>
+                <strong><%= model.name%></strong>
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th># ID</th><%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue;%>
+                            <th><%= test.toUpperCase()%></th><%}%>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr *ngFor="let <%= model.name.toLowerCase() %> of  <%= model.name.toLowerCase()%>s let i=index">
+                         <td>{{ <%= model.name.toLowerCase() %>.id }}</td><%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue;%>
+                        <td>{{<%= model.name.toLowerCase()%>.<%= test%>}}</td><%}%>
+                         <td>
+                            <span class="badge badge-success"><i (click)="successModal.show()" class="fa fa-edit"></i></span>
+                            <span class="badge badge-danger"><i (click)="dangerModal.show()" (click)="delete(<%= model.name.toLowerCase()%>)"  class="fa fa-trash-o"></i></span>
+                         </td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer pull-right ">
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+<%}  if (belongsTo.length != 0 && hasAndBelongsToMany.length == 0 && hasMany.length == 0 && hasManyThrough.length == 0){ %>
+<!--/.row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                <i class="fa fa-users"></i>
+                <strong><%= model.name%></strong>
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th># ID</th><%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue;%>
+                            <th><%= test.toUpperCase()%></th><%}%>
+                            <% for (var i=0;i< belongsTo.length; i++){ %><th><%if (belongsTo[i].relations.foreignKey != ""){ %><%=belongsTo[i].relations.foreignKey%><%} else {%><%=belongsTo[i].relation_name%> ID<%}%></th><%}%>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr *ngFor="let <%= model.name.toLowerCase() %> of  <%= model.name.toLowerCase() %>s let i=index">
+                         <td>{{ <%= model.name.toLowerCase() %>.id }}</td><%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue;%>
+                        <td>{{<%= model.name.toLowerCase()%>.<%= test%>}}</td><%}%>
+                        <% for (var i=0;i< belongsTo.length; i++){ %><td><%if (belongsTo[i].relations.foreignKey != ""){ %>{{<%= model.name.toLowerCase()%>.<%=belongsTo[i].relations.foreignKey%>}}<%} else {%>{{<%= model.name.toLowerCase()%>.<%= belongsTo[i].relations.model.toLowerCase() %>Id}}<%}%></td><%}%>
+                         <td>
+                            <span class="badge badge-success"><i (click)="successModal.show()" class="fa fa-edit"></i></span>
+                            <span class="badge badge-danger"><i (click)="dangerModal.show()" (click)="delete(<%= model.name.toLowerCase()%>)"  class="fa fa-trash-o"></i></span>
+                         </td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer pull-right ">
+
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+
+<%}  if (hasMany.length != 0 && hasAndBelongsToMany.length == 0 && hasManyThrough.length == 0){ %>
+<!--/.row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                <i class="fa fa-users"></i>
+                <strong><%= model.name%></strong>
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th># ID</th><%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue;%>
+                            <th><%= test.toUpperCase()%></th><%} for (var i=0;i< belongsTo.length; i++){ %>
+                            <th><%if (belongsTo[i].relations.foreignKey != ""){ %><%=belongsTo[i].relations.foreignKey%><%} else {%><%=belongsTo[i].relation_name%><%}%></th><%} for (var i=0;i< hasMany.length; i++){%>
+                            <th><%if (hasMany[i].relations.foreignKey != ""){ %><%=hasMany[i].relations.foreignKey%><%} else {%><%=hasMany[i].relation_name%><%}%></th><%}%>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr *ngFor="let <%= model.name.toLowerCase() %> of  <%= model.name.toLowerCase() %>s let i=index">
+                         <td>{{ <%= model.name.toLowerCase() %>.id }}</td><%for (let test in model.properties){if (!model.properties.hasOwnProperty(test)) continue;%>
+                        <td>{{<%= model.name.toLowerCase()%>.<%= test%>}}</td><%}for (var i=0;i< belongsTo.length; i++){ %>
+                        <td><%if (belongsTo[i].relations.foreignKey != ""){ %>{{<%= model.name.toLowerCase()%>.<%=belongsTo[i].relations.foreignKey%>}}<%} else {%>{{<%= model.name.toLowerCase()%>.<%= belongsTo[i].relations.model%>}}<%}%></td><%}%>
+                       <% for (var i=0;i< hasMany.length; i++){%><td><a [routerLink]="['/<%= hasMany[i].relation_name %>Listings'<%for (var j=lb_relation.length-1 ; j> 0 ; j--){if (lb_relation[j].relations.model == hasMany[i].relations.model && lb_relation[j].relations.type == 'hasMany'){%>,<%= model.name.toLowerCase() %>.id<%}}%>,'<%= model.name %>']">Detail </a></td><%}%>
+                         <td>
+                            <span class="badge badge-success"><i (click)="successModal.show()" class="fa fa-edit"></i></span>
+                            <span class="badge badge-danger"><i (click)="dangerModal.show()" (click)="delete(<%= model.name.toLowerCase()%>)"  class="fa fa-trash-o"></i></span>
+                         </td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer pull-right ">
+
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+<%}%>    
+
+
+<!--Modals-->
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-trash-o"> <strong>Delete</strong> <%= model.name %></i>
+                <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <h6>Do you want to Delete ?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">No</button>
+                <button type="button" (click)="addAlert()" (click)="dangerModal.hide()" class="btn btn-danger">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

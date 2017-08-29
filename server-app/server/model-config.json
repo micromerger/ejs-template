@@ -1,66 +1,82 @@
 {
-    "_meta": {
-        "sources": [
-            "loopback/common/models",
-            "loopback/server/models",
-            "../common/models",
-            "./models"
-        ],
-        "mixins": [
-            "loopback/common/mixins",
-            "loopback/server/mixins",
-            "../common/mixins",
-            "./mixins"
-        ]
-    },
-    "User": {
-        "dataSource": "db"
-    },
-    "AccessToken": {
-        "dataSource": "db",
-        "public": false
-    },
-    "ACL": {
-        "dataSource": "db",
-        "public": false
-    },
-    "RoleMapping": {
-        "dataSource": "db",
-        "public": false,
-        "options": {
-            "strictObjectIDCoercion": true
-        }
-    },
-    "Role": {
-        "dataSource": "db",
-        "public": false
-    },
-    "items": {
-        "dataSource": "db",
-        "public": true
-    },
-    "salelineitems": {
-        "dataSource": "db",
-        "public": true
-    },
-    "sales": {
-        "dataSource": "db",
-        "public": true
-    },
-    "type": {
-        "dataSource": "db",
-        "public": true
-    },
-    "size": {
-        "dataSource": "db",
-        "public": true
-    },
-    "customer": {
-        "dataSource": "db",
-        "public": true
-    },
-    "email": {
-        "dataSource": "db",
-        "public": true
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "db"
+  },
+  "AccessToken": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
     }
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  },
+  "customer": {
+    "dataSource": "db",
+    "public": true
+  },
+  "appiontment": {
+    "dataSource": "db",
+    "public": true
+  },
+  "patient": {
+    "dataSource": "db",
+    "public": true
+  },
+  "doctor": {
+    "dataSource": "db",
+    "public": true
+  },
+  "order1": {
+    "dataSource": "db",
+    "public": true
+  },
+  "email": {
+    "dataSource": "db",
+    "public": true
+  },
+  "model": {
+    "dataSource": "db",
+    "public": true
+  },
+  "model1": {
+    "dataSource": "db",
+    "public": true
+  },
+  "model2": {
+    "dataSource": "db",
+    "public": true
+  },
+  "customer1": {
+    "dataSource": "db",
+    "public": true
+  },
+  "assembly": {
+    "dataSource": "db",
+    "public": true
+  }
 }

@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <script src="//cdn.jsdelivr.net/snap.svg/0.1.0/snap.svg-min.js"></script>
+    <script>
+      var s = Snap("#svg");
+      var block = s.rect(50, 50, 100, 100, 20, 20);
+  
+      block.attr({
+          fill: "rgb(236, 240, 241)",
+          stroke: "#1f2c39",
+          strokeWidth: 3
+      });
+  
+      var text = s.text(70, 135, "Hello!");
+      text.attr({
+          'font-size':100
+      });
+  
+      block.attr({
+          width: (text.node.clientWidth + 50)
+      });
+    </script>
+  </head>
+  <body>
+    <svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>
+  </body>
+</html>

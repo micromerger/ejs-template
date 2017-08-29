@@ -1,0 +1,24 @@
+{
+  "name": "assembly",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "assemblyname": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "model1s": {
+      "type": "hasAndBelongsToMany",
+      "model": "model1",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

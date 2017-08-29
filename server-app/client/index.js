@@ -1,6 +1,8 @@
 var ejs = require('ejs');
 var app = require('../server/server.js');
+var inquirer = require('inquirer');
 var templates = new Array();
+var list_templates = new Array();
 var model_schema = new Array();
 var json_files = new Array();
 var app_templates = new Array();
@@ -9,6 +11,7 @@ var e2e_templates = new Array();
 var e2e_temp_names = new Array();
 var cli_templates = new Array();
 var cli_temp_names = new Array();
+var inquirer = require('inquirer');
 
 var lb_relation = new Array();
 var relation_data;
@@ -17,7 +20,8 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var fs = require('fs');
 
-var model, template_folder = './Component-Templates/';
+var model, template_folder = './Component-Templates/',
+    listing_templates = './Component-Listing-Templates';
 const testFolder = '../common/models/';
 
 
@@ -26,7 +30,6 @@ fs.readdir(testFolder, (err, files) => {
         if (file.split('.').pop() == 'json')
             json_files.push(file);
     });
-
 
     for (var i = 0; i < json_files.length; i++) {
         model_schema.push(require('../common/models/' + json_files[i]));
@@ -47,12 +50,14 @@ fs.readdir(testFolder, (err, files) => {
             }
         }
     }
+    //create question object for prompting properties...
+    // for (var check = 0 ; check  < prop.length ; check++){
+
+    // }
 
     // console.log(lb_relation);
     // loopback relations
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
     fs.readdir(template_folder, (err, temp) => {
         mkdirp.sync('./ng2app/e2e', function(err) {
             if (err) console.error(err)
@@ -67,9 +72,6 @@ fs.readdir(testFolder, (err, files) => {
             templates.push(fs.readFileSync('./Component-Templates/' + temp[i], 'utf-8'));
         }
 
-        // for (var count = 0; count < lb_relation.length; count++) {
-        //     model = lb_relation[count];
-        //     model.name = model.name.charAt(0).toUpperCase() + model.name.slice(1);
         for (var count = 0; count < model_schema.length; count++) {
             model = model_schema[count];
             model.name = model.name.charAt(0).toUpperCase() + model.name.slice(1);
@@ -108,6 +110,52 @@ fs.readdir(testFolder, (err, files) => {
         } //end of for loop...
 
 
+        //listing templates...
+        fs.readdir(listing_templates, (err, temp) => {
+
+            for (var count = 0; count < model_schema.length; count++) {
+                model = model_schema[count];
+                model.name = model.name.charAt(0).toUpperCase() + model.name.slice(1);
+                var listingDir = path.join('./ng2app/src/app/myComponents/' + model.name + 'ListingComponent');
+
+                mkdirp.sync(listingDir, function(err) {
+                    if (err)
+                        console.log(err);
+                }); //end of mkdirp...
+
+                for (var i = 0; i < temp.length; i++) {
+                    list_templates.push(fs.readFileSync('./Component-Listing-Templates/' + temp[i], 'utf-8'));
+                }
+                for (var i = 0; i < temp.length; i++) {
+
+                    html = ejs.render(list_templates[i], {
+                        model: model,
+                        lb_relation: lb_relation,
+                        model_schema: model_schema
+                    });
+
+                    switch (temp[i]) {
+                        case 'css-listing-template.ejs':
+                            fs.writeFileSync(listingDir + '/' + model.name + '.listing.component.css', html, 'utf-8')
+                            break;
+
+                        case 'simple-listing-html.ejs':
+                            fs.writeFileSync(listingDir + '/' + model.name + '.listing.component.html', html, 'utf-8')
+                            break;
+
+                        case 'spec.ts-listing-template.ejs':
+                            fs.writeFileSync(listingDir + '/' + model.name + '.listing.component.spec.ts', html, 'utf-8')
+                            break;
+
+                        case 'ts-listing-template.ejs':
+                            fs.writeFileSync(listingDir + '/' + model.name + '.listing.component.ts', html, 'utf-8')
+                            break;
+                    } //end of switch...
+                } //end of for loop...
+            } //end of for loop...
+        }); //end of listing templates...
+
+
         // setting files created e.g. module.ts,routing.ts etc...
         //read app-template folder...
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -120,7 +168,8 @@ fs.readdir(testFolder, (err, files) => {
 
             for (var count = 0; count < app_templates.length; count++) {
                 html = ejs.render(app_templates[count], {
-                    model_schema: model_schema
+                    model_schema: model_schema,
+                    lb_relation: lb_relation
                 });
                 switch (app_temp_names[count]) {
                     case 'app_html_template.ejs':
